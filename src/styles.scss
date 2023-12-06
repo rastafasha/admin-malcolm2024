@@ -1,0 +1,51 @@
+/* You can add global styles to this file, and also import other style files */
+@import "./assets/sass/style";
+
+// Replace above style with this SCSS file to enable dark mode styles
+//@import "./assets/sass/style.dark";
+
+@import "./assets/sass/style.angular.scss";
+
+@media (min-width:768px){
+    .responsive-table{
+        overflow: hidden;
+        width: 100%;
+        height: 50vh;
+        overflow: scroll;
+    }
+}
+
+.activo {
+    color:#fff !important;
+    background-color: #50CD89 !important;
+}
+.pending{
+    color:#fff !important;
+    background-color: #009EF7 !important;
+}
+.terminado{
+    color:#fff !important;
+    background-color: #F1416C  !important;
+
+}
+.urgente{
+    color:#fff !important;
+    background-color: #FFC700 !important;
+}
+
+.badge-light-activo {
+    color: #50CD89;
+    background-color: #E8FFF3;
+}
+.badge-light-pending {
+    color: #009EF7;
+    background-color: #F1FAFF;
+}
+.badge-light-urgente {
+    color: #FFC700;
+    background-color: #FFF8DD;
+}
+.badge-light-terminado {
+    color: #F1416C;
+    background-color: #FFF5F8;
+}

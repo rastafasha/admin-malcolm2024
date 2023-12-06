@@ -1,0 +1,105 @@
+<div class="card">
+
+    <!--begin::Card header-->
+    <div class="card-header">
+        <!--begin::Card title-->
+        <div class="card-title fs-3 fw-bolder">Administrar Delivery</div>
+        <!--end::Card title-->
+        
+        <!--begin::Card toolbar-->
+        <div class="card-toolbar">
+            <!--begin::Toolbar-->
+            <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
+                <!--begin::back-->
+                <a  (click)="goBack()" type="button" class="btn btn-danger">Volver </a>
+                <!--end::back-->
+            </div>
+            <!--end::Toolbar-->
+            
+            
+        </div>
+        <!--end::Card toolbar-->
+    </div>
+    <!--end::Card header-->
+    <!--begin::Form-->
+    
+        <div class="row">
+            <div class="col-md-6 form-group">
+                <form (ngSubmit)="onSubmit()" id="kt_project_settings_form" class="form fv-plugins-bootstrap5 fv-plugins-framework" novalidate="novalidate">
+                    <div class="card">
+                        <div class="card-header">
+                            <b>Nuevo medio</b>
+                        </div>
+                        <div class="card-body">
+
+                            <div class="row">
+
+                                <div class="col-lg-12 form-group">
+                                    <label for="normal-input">Empresa o Tipo de envio</label>
+                                    <input class="form-control" type="text" name="titulo" [(ngModel)]="titulo" required placeholder="Empresa o tipo de envío">
+                                </div>
+                                <div class="col-lg-12 form-group">
+                                    <label for="normal-input">Tiempo estimado</label>
+                                    <input class="form-control" type="text" name="tiempo" [(ngModel)]="tiempo" required placeholder="10 - 15 días">
+                                </div>
+                                <div class="col-lg-12 form-group">
+                                    <label for="normal-input">Precio</label>
+                                    <input class="form-control" type="number" name="precio" [(ngModel)]="precio" required placeholder="Precio del envio">
+                                </div>
+                                <div class="col-lg-12 form-group">
+                                    <label for="normal-input">Días</label>
+                                    <input class="form-control" type="number" name="dias" [(ngModel)]="dias" required placeholder="En cuantos días llega aprox.">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary btn-sm">Crear</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-6 form-group">
+                <span class="spinner-border spinner-border-sm align-middle ms-2" *ngIf="isLoading | async"></span>
+                <div class="row">
+                    <div class="col-lg-12 card">
+                        <div class="table-responsive table-sm">
+                            <table class="table table-sm">
+                                <thead class="thead-dark">
+                                    <tr>
+
+                                        <th>Empresa</th>
+                                        <th>Tiempo</th>
+                                        <th>Precio</th>
+                                        <th>OP</th>
+                                    </tr>
+                                </thead>
+                                <tbody *ngFor="let delivery of deliveries ">
+                                    <tr>
+                                        <td style="font-size: 13px;">{{delivery.titulo}}</td>
+                                        <td style="font-size: 13px;">{{delivery.tiempo}}</td>
+                                        <td style="font-size: 13px;">{{delivery.precio}}</td>
+                                        <td class="text-center">
+                                            
+
+                                            <a href="#" onclick="return false" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm" (click)="eliminarDelivery(delivery)" >
+                                               
+                                                <span class="svg-icon svg-icon-3">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                        <path d="M5 9C5 8.44772 5.44772 8 6 8H18C18.5523 8 19 8.44772 19 9V18C19 19.6569 17.6569 21 16 21H8C6.34315 21 5 19.6569 5 18V9Z" fill="currentColor" />
+                                                        <path opacity="0.5" d="M5 5C5 4.44772 5.44772 4 6 4H18C18.5523 4 19 4.44772 19 5V5C19 5.55228 18.5523 6 18 6H6C5.44772 6 5 5.55228 5 5V5Z" fill="currentColor" />
+                                                        <path opacity="0.5" d="M9 4C9 3.44772 9.44772 3 10 3H14C14.5523 3 15 3.44772 15 4V4H9V4Z" fill="currentColor" />
+                                                    </svg>
+                                                </span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!--end:Form-->
+</div>

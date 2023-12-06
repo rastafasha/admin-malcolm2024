@@ -1,0 +1,99 @@
+<span class="spinner-border spinner-border-sm align-middle ms-2" *ngIf="isLoading | async"></span>
+<!-- begin::Header -->
+<div class="card-header border-0">
+  <h3 class="card-title fw-bolder text-dark">Tareas Recientes.</h3>
+  <div class="card-toolbar">
+    <!-- begin::Menu -->
+    <button
+      type="button"
+      class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary"
+      routerLink="/tareas"
+    >
+      <span
+        [inlineSVG]="'./assets/media/icons/duotune/general/gen024.svg'"
+        class="svg-icon svg-icon-2"
+      ></span>
+    </button>
+    <!-- end::Menu -->
+  </div>
+</div>
+<!-- end::Header -->
+<!-- begin::Body -->
+<div class="card-body pt-2">
+  <div class="iteeemm">
+  <ng-container *ngFor="let todo of todos | slice:0:6">
+    
+    <!-- begin::Item -->
+  <div class="d-flex align-items-center mb-8" *ngIf="!tareaSelected">
+    <!-- begin::Bullet -->
+    <span class="bullet bullet-vertical h-40px activo" *ngIf="todo.status == 'activo'"></span>
+    <span class="bullet bullet-vertical h-40px pending" *ngIf="todo.status == 'pending'"></span>
+    <span class="bullet bullet-vertical h-40px terminado" *ngIf="todo.status == 'terminado'"></span>
+    <span class="bullet bullet-vertical h-40px urgente" *ngIf="todo.status == 'urgente'"></span>
+    <!-- end::Bullet -->
+    <!-- begin::Checkbox -->
+    <!-- <div class="form-check form-check-custom form-check-solid mx-5">
+      <input class="form-check-input" type="checkbox" value="" />
+    </div> -->
+    <!-- end::Checkbox -->
+    <!-- begin::Description -->
+    <div class="flex-grow-1">
+      <a (click)="selectedTarea(todo)" style="cursor:pointer" class="text-gray-800 text-hover-primary fw-bolder fs-6">
+        &nbsp;{{todo.titulo|slice:0:15}}...
+      </a>
+      <span class="text-muted fw-bold d-block">{{todo.created_at|date}}</span>
+    </div>
+    <!-- end::Description -->
+    <span class="badge badge-light-activo fs-8 fw-bolder" *ngIf="todo.status == 'activo'">Act.</span>
+    <span class="badge badge-light-pending fs-8 fw-bolder" *ngIf="todo.status == 'pending'">Pend.</span>
+    <span class="badge badge-light-terminado fs-8 fw-bolder" *ngIf="todo.status == 'terminado'">Term.</span>
+    <span class="badge badge-light-urgente fs-8 fw-bolder" *ngIf="todo.status == 'urgente'">Urg.</span>
+    
+    
+  </div>
+  
+  <!-- end:Item -->
+</ng-container>
+<div class="row " *ngIf="tareaSelected">
+  <div class="col-12 col-sm-6 d-flex justify-content-space-between flex-row ">
+      <div class="col-12 ">
+          <div class="rbt-form-group">
+              <b>
+                  Titulo </b><br>
+                  {{tareaSelected.titulo}}
+          </div>
+      </div>
+      <div class="col-12 ">
+          <div class="rbt-form-group">
+              <b> status</b><br>
+              {{tareaSelected.status}}
+              <div class="col-12">
+                  
+                  <select class="form-control " [(ngModel)]="tareaSelected.status" name="status" (change)="cambiarStatus(todo)">
+                      <option disabled value="">Status</option>
+                      <option value="activo">Activo</option>
+                      <option value="pending">Pendiente</option>
+                      <option value="terminado">Terminado</option>
+                      <option value="urgente">Urgente</option>
+                  </select>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="col-12 ">
+      <div class="rbt-form-group">
+          <b>
+              Descripcion</b><br>
+              {{tareaSelected.description}}
+      </div>
+  </div>
+</div>
+</div>
+
+
+<div *ngIf="tareaSelected">
+  <button class="btn btn-primary btn-sm" (click)="tareaSelected = null">Regresar</button>
+</div>
+  
+</div>
+<!-- end::Body -->

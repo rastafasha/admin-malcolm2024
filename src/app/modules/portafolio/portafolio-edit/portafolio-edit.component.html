@@ -1,0 +1,133 @@
+<span class="spinner-border spinner-border-sm align-middle ms-2" *ngIf="isLoading | async"></span>
+<div class="card" *ngIf="portafolioSelected">
+    
+    <!--begin::Card header-->
+    <div class="card-header">
+        <!--begin::Card title-->
+        <div class="card-title fs-3 fw-bolder">Editar Proyecto #{{portafolioSelected.id}}</div>
+        <!--end::Card title-->
+        <!--begin::Card toolbar-->
+        <div class="card-toolbar">
+            <!--begin::Toolbar-->
+            <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
+                <!--begin::back-->
+                <a  (click)="goBack()" type="button" class="btn btn-danger">Volver </a>
+                <!--end::back-->
+            </div>
+            <!--end::Toolbar-->
+        </div>
+        <!--end::Card toolbar-->
+    </div>
+    <!--end::Card header-->
+    <!--begin::Form-->
+    <form id="kt_project_settings_form" class="form fv-plugins-bootstrap5 fv-plugins-framework" novalidate="novalidate">
+        <!--begin::Card body-->
+        <div class="card-body p-9">
+            
+            <!--begin::Row-->
+            <div class="row mb-8">
+                <div class="col-6">
+                    <div class="fs-6 fw-bold mt-2 mb-3">Título del Proyecto</div>
+                    <input type="text" class="form-control form-control-solid" [(ngModel)]="title" name="title"
+                        placeholder="Desarrollo web">
+                </div>
+                <div class="col-6">
+                    <div class="fs-6 fw-bold mt-2 mb-3">Video you-tube?</div>
+                    <input type="text" class="form-control form-control-solid" [(ngModel)]="youtubeurl" name="youtubeurl"
+                       >
+                </div>
+            </div>
+            <!--end::Row-->
+            <!--begin::Row-->
+            <div class="row mb-8">
+                <div class="col-3">
+                    <div class="fs-6 fw-bold mt-2 mb-3">Modal?</div>
+                    <input type="text" class="form-control form-control-solid" [(ngModel)]="popup" name="popup"
+                       >
+                </div>
+                <div class="col-3">
+                    <div class="fs-6 fw-bold mt-2 mb-3">Url?</div>
+                    <input type="text" class="form-control form-control-solid" [(ngModel)]="url" name="url"
+                       >
+                </div>
+                <div class="col-3">
+
+                    <label for="select-input" style="line-height: 3;">Categoria <span class="required">*</span></label>
+                    <!-- <p *ngIf="postSeleccionado">({{postSeleccionado.categories.name}})</p> -->
+                    <select class="form-control " [(ngModel)]="category_id" name="category_id">
+                    <option disabled  value="">SELECCIONAR</option>
+                    <option *ngFor="let item of categorias;" [value]="item.id" >{{item.name}}</option>
+                </select>
+                    
+                </div>
+                <div class="col-3">
+                    <label for="select-input" style="line-height: 3;">Destacado? <span class="required">*</span></label>
+                                <select class="form-control " [(ngModel)]="isFeatured" name="isFeatured">
+                        <option disabled value="">SELECCIONAR</option>
+                        <option  value="1">Activo</option>
+                        <option  value="0">Inactivo</option>
+                      </select>
+                </div>
+            </div>
+            <div class="row mb-8">
+                <div class="col-4">
+                    <div class="col-lg-6 col-md-6 col-sm-12 my-2">
+                        <label class="form-label">Sube tu portada: *</label>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="customFile"  accept=".jpeg, .bmp, .jpg, .png, .gif, .webp"  (change)="processFile($event)">
+                            <label class="custom-file-label" for="customFile">Choose file</label>
+                        </div>
+                        <div class="py-3" *ngIf="imagenPrevisualizar">
+                            <img [src]="imagenPrevisualizar" width="250" alt="" srcset="">
+                        </div>
+                    </div>
+                </div>
+                
+                
+            </div>
+            <!--end::Row-->
+            <!--begin::Row-->
+            <div class="row mb-8">
+                <div class="col-xl-3">
+                    <div class="fs-6 fw-bold mt-2 mb-3"> Descripción</div>
+                </div>
+                <div class="col-xl-9 fv-row fv-plugins-icon-container">
+                    <ckeditor  [data]="description" (change)="onChange($event)"></ckeditor>
+                </div>
+                
+            </div>
+            <!--end::Row-->
+            <!--begin::Row-->
+            <div class="row mb-8">
+                <!--begin::Input group-->
+                <div class="col-4">
+                    <!--begin::Label-->
+                    <label class="required fw-bold fs-6 mb-2">Status</label>
+                    <!--end::Label-->
+                    <!--begin::Input-->
+                    <select
+                    class="form-control form-select-solid fw-bolder"
+                    name="status" [(ngModel)]="status"
+                    placeholder="status"
+                >
+                    <option value="PUBLISHED">Publicado</option>
+                    <option value="PENDING">Prueba</option>
+                </select>
+                    <!--end::Input-->
+                </div>
+                
+                
+            </div>
+            <!--end::Row-->
+            
+            
+        </div>
+        <!--end::Card body-->
+        <!--begin::Card footer-->
+        <div class="card-footer d-flex justify-content-end py-6 px-9">
+            <button type="button" (click)="save()" class="btn btn-primary" id="kt_project_settings_submit">Actualizar</button>
+        </div>
+        <!--end::Card footer-->
+    <input type="hidden"><div></div></form>
+    <!--end:Form-->
+</div>
