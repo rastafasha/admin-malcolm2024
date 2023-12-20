@@ -3,6 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProductService } from '../services/product.service';
 import { ProductDeleteComponent } from '../product-delete/product-delete.component';
 import { Location } from '@angular/common';
+import { Toaster } from 'ngx-toast-notifications';
 
 @Component({
   selector: 'app-product-list',
@@ -15,13 +16,14 @@ export class ProductListComponent implements OnInit {
   isLoading: any = null;
   search:any= null;
   state:any= null;
-
+  product:any;
 
 
   constructor(
     public productService: ProductService,
     public modalService: NgbModal,
     private location: Location,
+    public toaster: Toaster,
   ) { }
 
   ngOnInit(): void {
@@ -53,5 +55,26 @@ export class ProductListComponent implements OnInit {
     })
 
   }
+
+  cambiarStatus(product:any){
+    let VALUE = product.state;
+    console.log(VALUE);
+    let data ={
+      state: VALUE,
+    }
+    this.productService.updateStatus(data, product.id).subscribe(
+      resp =>{
+        console.log(resp);
+        // Swal.fire('Actualizado', `actualizado correctamente`, 'success');
+        this.toaster.open({
+          text:'Producto Actualizado!',
+          caption:'Mensaje de Validación',
+          type:'success',
+        })
+        this.listarProducts();
+      }
+    )
+  }
+
 
 }

@@ -14,6 +14,7 @@ export class OverviewComponent implements OnInit {
   id:number;
   isLoading:any;
   parentMessage = "message from parent";
+  option_selected:number = 1;
   
   constructor(
     public activatedRoute: ActivatedRoute,
@@ -38,5 +39,10 @@ export class OverviewComponent implements OnInit {
         console.log(this.user);
       }
     )
+  }
+
+  optionSelected(value:number){
+    this.option_selected = value;
+    console.log(value);
   }
 }

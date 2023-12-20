@@ -1,8 +1,8 @@
-<span class="spinner-border spinner-border-sm align-middle ms-2" *ngIf="isLoading | async"></span>
 <!--begin::Card-->
 <div class="card">
     <!--begin::Card header-->
     <div class="card-header border-0 pt-6">
+        <span class="spinner-border spinner-border-sm align-middle ms-2" *ngIf="isLoading | async"></span>
         <!--begin::Card title-->
         <div class="card-title">
             <!--begin::Search-->
@@ -15,7 +15,7 @@
                     </svg>
                 </span>
                 <!--end::Svg Icon-->
-                <input type="text" [(ngModel)]="search" data-kt-user-table-filter="search" class="form-control form-control-solid w-250px ps-14" placeholder="Search category" (keyup.enter)="listarProducts()" />
+                <input type="text" [(ngModel)]="search" data-kt-user-table-filter="search" class="form-control form-control-solid w-250px ps-14" placeholder="Search category" (keyup.enter)="listarCategorys()" />
 
             </div>
             <!--end::Search-->
@@ -49,11 +49,11 @@
                         <!--begin::Input group-->
                         <div class="mb-10">
                             <label class="form-label fs-6 fw-bold">Estado:</label>
-                            <select [(ngModel)]="state" (change)="listarProducts()" class="form-select form-select-solid fw-bolder" data-kt-select2="true" data-placeholder="Select option" data-allow-clear="true" data-kt-user-table-filter="role" data-hide-search="true">
+                            <select [(ngModel)]="state" (change)="listarCategorys()" class="form-select form-select-solid fw-bolder" data-kt-select2="true" data-placeholder="Select option" data-allow-clear="true" data-kt-user-table-filter="role" data-hide-search="true">
                                 
                                 <option value="0">Todos</option>
-                                <option value="1">Prueba</option>
-                                <option value="2">Publico</option>
+                                <option value="PUBLISHED">Activo</option>
+                                <option value="PENDING">Inactivo</option>
                             </select>
                         </div>
                         <!--end::Input group-->
@@ -65,7 +65,7 @@
                
                 
                 <!--begin::Add user-->
-                <a  [routerLink]="['/productos/registro']" type="button" class="btn btn-primary">
+                <button type="button" class="btn btn-primary" (click)="openModalCreateCategory()">
                 <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
                 <span class="svg-icon svg-icon-2">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -73,8 +73,8 @@
                         <rect x="4.36396" y="11.364" width="16" height="2" rx="1" fill="currentColor" />
                     </svg>
                 </span>
-                <!--end::Svg Icon-->Add Product
-                </a>
+                <!--end::Svg Icon-->Add Categoría
+                </button>
                 <!--end::Add user-->
                 <!--begin::back-->
                 <a  (click)="goBack()" type="button" class="btn btn-danger">Volver </a>
@@ -90,20 +90,16 @@
     <!--begin::Card body-->
     <div class="card-body py-4">
         <!--begin::Table-->
-        <table class="table align-middle table-row-dashed fs-6 gy-5 table-responsive" id="kt_table_users">
+        <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_table_users">
             <!--begin::Table head-->
             <thead>
                 <!--begin::Table row-->
                 <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0">
-                    
                     <th class="min-w-125px">Imagen</th>
                     <th class="min-w-125px">Nombre</th>
                     <th class="min-w-125px">Status</th>
-                    <th class="min-w-125px">Edit </th>
-                    <th class="min-w-125px">Categoría</th>
-                    <th class="min-w-125px">Precio USD</th>
-                    <!-- <th class="min-w-125px">Precio Bves</th> -->
-                    <!-- <th class="min-w-125px">Nivel</th> -->
+                    <th class="min-w-125px">Update</th>
+                    <th class="min-w-125px">Categoría Padre</th>
                     <th class="text-end min-w-100px">Actions</th>
                 </tr>
                 <!--end::Table row-->
@@ -112,73 +108,60 @@
             <!--begin::Table body-->
             <tbody class="text-gray-600 fw-bold">
                 <!--begin::Table row-->
-                <ng-container *ngFor="let product of PRODUCTS">
+                <ng-container *ngFor="let categoria of CATEGORIES">
                     <tr>
-                    
                         <!--begin::imagen=-->
                         <td class="">
                             <!--begin:: Avatar -->
-                            <div class="symbol  symbol-50px overflow-hidden me-3" *ngIf="product.imagen">
+                            <div class="symbol  symbol-50px overflow-hidden me-3" *ngIf="categoria.imagen">
                                 <a href="#" onclick="return false">
                                     <div class="symbol-label">
-                                        <img [src]="product.imagen" alt="{{product.nombre}}" class="w-100" />
+                                        <img [src]="categoria.imagen" alt="{{categoria.nombre}}" class="w-100" />
                                     </div>
                                 </a>
                             </div>
                             <!--end::Avatar-->
                         </td>
                         <!--end::imagen=-->
-                        
                         <!--end::Role=-->
                         <td class="">
                             <!--begin::User details-->
                             <div class="d-flex flex-column">
-                                <a href="#" class="text-gray-800 text-hover-primary mb-1">{{product.title }}</a>
-                                <p>{{product.level }}</p>
+                                <a href="#" onclick="return false" class="text-gray-800 text-hover-primary mb-1">{{categoria.nombre }}</a>
                             </div>
                             <!--begin::User details-->
                         </td>
+                        
                         <td>
                             <div class="badge badge-light fw-bolder">
-                                <div class="badge badge-light-danger fw-bolder" *ngIf="product.state == 1">Prueba</div>
-                                <div class="badge badge-light-success fw-bolder" *ngIf="product.state == 2">Publico</div>
+                                <div class="badge badge-light-success fw-bolder" *ngIf="categoria.state == 1">Enabled</div>
+                                <div class="badge badge-light-danger fw-bolder" *ngIf="categoria.state == 2">Unabled</div>
                             </div>
                         </td>
-                        
                         <td>
-                                <!--begin::Input-->
-                                <select
-                                class="form-control form-select-solid fw-bolder"
-                                name="state" [(ngModel)]="product.state" (change)="cambiarStatus(product)"
-                                placeholder="state">
-                                <option [value]="2">Publicado</option>
-                                <option [value]="1">Editando</option>
-
-                                
-                            </select>
-
+                            <select class="form-control" [(ngModel)]="categoria.state" (change)="cambiarStatus(categoria)">
+                          <option value="1">Publicado</option>
+                          <option value="2">Pendiente</option>
+                        </select>
                         </td>
+                        <!--begin::Joined-->
+                        <td>
+                            <div class="symbol  symbol-50px overflow-hidden me-3" *ngIf="categoria.category_product_id">
+                                <a href="#" onclick="return false">
+                                    <div class="symbol-label">
+                                        <img [src]="categoria.category_product_id.imagen" alt="{{categoria.nombre}}" class="w-100" />
+                                    </div>
+                                </a>
+                                <a href="#" class="text-gray-800 text-hover-primary mb-1">{{categoria.category_product_id.nombre }}</a>
+                            </div>
+                        </td>
+                        <!--begin::Joined-->
                         <!--end::Last login=-->
-                        <!--begin::Joined-->
-                        <td>
-                            <a href="#" onclick="return false" class="text-gray-800 text-hover-primary mb-1">{{product.categories_product.name }}</a>
-                            
-                        </td>
-                        <td class="">
-                            <!--begin::User details-->
-                            <div class="d-flex flex-column">
-                                <a href="#" class="text-gray-800 text-hover-primary mb-1">{{product.price_usd | currency }}</a>
-                            </div>
-                            <!--begin::User details-->
-                        </td>
-                        
-                        <!--begin::Joined-->
                         <!--begin::Action=-->
                         <td class="text-end">
                             <div class="d-flex justify-content-end flex-shrink-0">
                                 
-                                
-                                <a [routerLink]="['/productos/list/editar', product.id]" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1"  >
+                                <a (click)="editCategory(categoria)"  class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1"  >
                                     <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
                                     <span class="svg-icon svg-icon-3">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -188,7 +171,8 @@
                                     </span>
                                     <!--end::Svg Icon-->
                                 </a>
-                                <a href="#" onclick="return false" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm" (click)="eliminarProduct(product)" >
+                                
+                                <a href="#" onclick="return false" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm" (click)="eliminarCategory(categoria)" >
                                     <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
                                     <span class="svg-icon svg-icon-3">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CourseService } from '../service/course.service';
 import { Toaster } from 'ngx-toast-notifications';
 import { CKEditor4 } from 'ckeditor4-angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-course-add',
@@ -42,6 +43,7 @@ export class CourseAddComponent implements OnInit {
   constructor(
     public cursoService: CourseService,
     public toaster: Toaster,
+    public router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -197,6 +199,7 @@ public onChange(event: any) {
           this.who_is_it_fors = [];
           this.requirements = [];
           this.imagenPrevisualizar = null;
+          this.router.navigateByUrl("/cursos/list");
         }
         
       }

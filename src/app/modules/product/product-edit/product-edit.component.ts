@@ -14,10 +14,14 @@ export class ProductEditComponent implements OnInit {
 
   subcategories:any=[];
   subcategories_back:any=[];
-  categories:any=[];
+  category_products:any=[];
   instructors:any=[];
   requirements:any=[];
   who_is_it_fors:any=[];
+  colors:any=[];
+  peso:any=[];
+  medida:any=[];
+  material:any=[];
 
   isLoading:any;
   isUploadVideo:Boolean = false;
@@ -29,6 +33,10 @@ export class ProductEditComponent implements OnInit {
   text_regueriments:any = null;
   textWhoIsItFors:any = null;
   whoIsItFors:any = null;
+  text_colors:any = null;
+  text_materials:any = null;
+  text_pesos:any = null;
+  text_medidas:any = null;
 
   title:any=null;
   subtitle:any=null;
@@ -39,7 +47,7 @@ export class ProductEditComponent implements OnInit {
   idioma:any=null;
   vimeo_id:any=null;
   user_id:any=null;
-  category_id:any=null;
+  category_product_id:any=null;
   sub_category_id:any=null;
   who_is_it_for:any=null;
 
@@ -85,10 +93,15 @@ export class ProductEditComponent implements OnInit {
         this.price_bves =this.productSelected.price_bves;
         this.description = this.productSelected.description;
         this.user_id =this.productSelected.user.id;
-        this.category_id =this.productSelected.categories_product.id;
-        this.selectCategory({target:{value: this.category_id}});
+        this.category_product_id =this.productSelected.categories_product.id;
+        this.sub_category_id =this.productSelected.sub_category.id;
+        this.selectCategory({target:{value: this.category_product_id}});
         this.who_is_it_fors = this.productSelected.who_is_it_for;
         this.requirements = this.productSelected.requirements;
+        this.colors = this.productSelected.colors;
+        this.medida = this.productSelected.medida;
+        this.material = this.productSelected.material;
+        this.peso = this.productSelected.peso;
         this.imagenPrevisualizar = this.productSelected.imagen;
         this.state = this.productSelected.state;
 
@@ -104,9 +117,10 @@ export class ProductEditComponent implements OnInit {
   listarCategorias(){
     this.productService.listarCategorias().subscribe(
       (res:any)=>{
-        this.categories = res.categories_product;
+        this.category_products = res.category_products;
         this.subcategories = res.subcategories;
         this.instructors = res.instructors;
+        console.log(res);
       }
     )
   }
@@ -114,10 +128,11 @@ export class ProductEditComponent implements OnInit {
 
   selectCategory(event: any){
     let VALUE = event.target.value;
-    // console.log(VALUE);
-    this.subcategories_back = this.subcategories.filter((item:any) => item.category_id == VALUE);
+    console.log(VALUE);
+    this.subcategories_back = this.subcategories.filter((item:any) => item.category_product_id == VALUE);
 
   }
+
 
   processFile($event:any){
     if($event.target.files[0].type.indexOf('image') < 0){
@@ -219,6 +234,71 @@ removeWhatisFor(index:number){
   this.who_is_it_fors.splice(index, 1);
 }
 
+
+
+
+
+addColors(){
+  if(!this.text_colors){
+    this.toaster.open({
+      text:'Necesitas ingresar un requerimiento',
+      caption: 'Validación',
+      type: 'danger'
+    })
+    return false;
+  }
+  this.colors.push(this.text_colors);
+  this.text_colors = null;
+}
+removeColor(index:number){
+  this.colors.splice(index, 1);
+}
+addMaterials(){
+  if(!this.text_materials){
+    this.toaster.open({
+      text:'Necesitas ingresar un requerimiento',
+      caption: 'Validación',
+      type: 'danger'
+    })
+    return false;
+  }
+  this.material.push(this.text_materials);
+  this.text_materials = null;
+}
+removeMaterial(index:number){
+  this.material.splice(index, 1);
+}
+addPesos(){
+  if(!this.text_pesos){
+    this.toaster.open({
+      text:'Necesitas ingresar un requerimiento',
+      caption: 'Validación',
+      type: 'danger'
+    })
+    return false;
+  }
+  this.peso.push(this.text_pesos);
+  this.text_pesos = null;
+}
+removePeso(index:number){
+  this.peso.splice(index, 1);
+}
+addMedidas(){
+  if(!this.text_medidas){
+    this.toaster.open({
+      text:'Necesitas ingresar un requerimiento',
+      caption: 'Validación',
+      type: 'danger'
+    })
+    return false;
+  }
+  this.medida.push(this.text_medidas);
+  this.text_medidas = null;
+}
+removeMedida(index:number){
+  this.medida.splice(index, 1);
+}
+
 public onChange(event: any) {
   this.description = event.editor.getData();
 }
@@ -230,7 +310,7 @@ public onChange(event: any) {
       || !this.price_usd
       || !this.price_bves
       || !this.description
-      || !this.category_id){
+      || !this.category_product_id){
         this.toaster.open({
           text:'Necesitas todos los campos requeridos',
       caption: 'Validación',
@@ -246,9 +326,14 @@ public onChange(event: any) {
     formData.append('price_bves', this.price_bves+'');
     formData.append('description', this.description);
     formData.append('user_id', this.user_id);
-    formData.append('category_id', this.category_id);
+    formData.append('category_product_id', this.category_product_id);
+    formData.append('sub_category_id', this.sub_category_id);
     formData.append('who_is_it_for', this.who_is_it_fors);
     formData.append('requirements', this.requirements);
+    formData.append('colors', this.colors);
+    formData.append('medida', this.medida);
+    formData.append('peso', this.peso);
+    formData.append('material', this.material);
     formData.append('state', this.state);
     
     if(this.filePortada){
@@ -270,6 +355,8 @@ public onChange(event: any) {
             caption: 'Informe',
             type:'success'
           })
+          this.ngOnInit();
+          // window.location.reload();
         }
         
       }
@@ -280,3 +367,6 @@ public onChange(event: any) {
 
   
 }
+
+
+

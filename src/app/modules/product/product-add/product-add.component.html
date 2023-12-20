@@ -53,7 +53,7 @@
                 <div class="col-4">
                     <div class="fs-6 fw-bold mt-2 mb-3">Categoría</div>
                     <select class="form-control form-select-solid fw-bolder" name="categorie"
-                        placeholder="Selec. Categoria" [(ngModel)]="category_id" (change)="selectCategory($event)">
+                        placeholder="Selec. Categoria" [(ngModel)]="category_product_id" (change)="selectCategory($event)">
                         <ng-container *ngFor="let category of categories">
                             <option [value]="category.id">{{category.nombre}}</option>
                         </ng-container>
@@ -83,9 +83,8 @@
                         </div>
                     </div>
                 </div>
-                
                 <div class="col-4">
-                    <div class="fs-6 fw-bold mt-2 mb-3">Instructor</div>
+                    <div class="fs-6 fw-bold mt-2 mb-3">Vendedor</div>
                     <select class="form-control form-select-solid fw-bolder" name="user" [(ngModel)]="user_id"
                         placeholder="Selec. Idioma">
                         <ng-container *ngFor="let instructor of instructors">
@@ -108,12 +107,207 @@
 
             </div>
             <!--end::Row-->
+            
             <!--begin::Row-->
             <div class="row mb-8">
+                <!-- colors -->
+                <div class="col-3">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="fs-6 fw-bold mt-2 mb-3"> Colores:</div>
+                            <div class="d-flex">
+                                <input type="color" class="form-control form-control-solid"
+                                    (keyup.enter)="addColors()" [(ngModel)]="text_colors"
+                                    name="colors" placeholder="color">
+                                <button class="btn btn-sm btn-primary mx-4" (click)="addColors()">+</button>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="table-responsive">
+                                <!--begin::Table-->
+                                <table class="table align-middle gs-0 gy-3">
+                                    <!--begin::Table head-->
+                                    <thead>
+                                        <tr>
+                                            <th class="p-0 "></th>
+                                            <th class="p-0 "></th>
+                                        </tr>
+                                    </thead>
+                                    <!--end::Table head-->
+                                    <!--begin::Table body-->
+                                    <tbody>
+                                        <tr *ngFor="let color of colors; let i = index;">
+                                            <td>
+                                                <a href="#" onclick="return false;"
+                                                    class="text-dark fw-bolder text-hover-primary mb-1 fs-6">{{color}}</a>
+                                            </td>
+                                            <td class="text-end text-muted fw-bold">
+
+                                                <button class="btn btn-sm btn-danger"
+                                                    (click)="removeColor(i)">X</button>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                    <!--end::Table body-->
+                                </table>
+                                <!--end::Table-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- colors -->
+                <!-- material -->
+                <div class="col-3">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="fs-6 fw-bold mt-2 mb-3"> Material:</div>
+                            <div class="d-flex">
+                                <input type="text" class="form-control form-control-solid"
+                                    (keyup.enter)="addMaterials()" [(ngModel)]="text_materials"
+                                    name="material" placeholder="Madera">
+                                <button class="btn btn-sm btn-primary mx-4" (click)="addMaterials()">+</button>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="table-responsive">
+                                <!--begin::Table-->
+                                <table class="table align-middle gs-0 gy-3">
+                                    <!--begin::Table head-->
+                                    <thead>
+                                        <tr>
+                                            <th class="p-0 "></th>
+                                            <th class="p-0 "></th>
+                                        </tr>
+                                    </thead>
+                                    <!--end::Table head-->
+                                    <!--begin::Table body-->
+                                    <tbody>
+                                        <tr *ngFor="let mate of material; let i = index;">
+                                            <td>
+                                                <a href="#" onclick="return false;"
+                                                    class="text-dark fw-bolder text-hover-primary mb-1 fs-6">{{mate}}</a>
+                                            </td>
+                                            <td class="text-end text-muted fw-bold">
+
+                                                <button class="btn btn-sm btn-danger"
+                                                    (click)="removeMaterial(i)">X</button>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                    <!--end::Table body-->
+                                </table>
+                                <!--end::Table-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- material -->
+                <!-- peso -->
+                <div class="col-3">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="fs-6 fw-bold mt-2 mb-3"> Peso:</div>
+                            <div class="d-flex">
+                                <input type="text" class="form-control form-control-solid"
+                                    (keyup.enter)="addColors()" [(ngModel)]="text_pesos"
+                                    name="peso" placeholder="100 (medida)">
+                                <button class="btn btn-sm btn-primary mx-4" (click)="addPesos()">+</button>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="table-responsive">
+                                <!--begin::Table-->
+                                <table class="table align-middle gs-0 gy-3">
+                                    <!--begin::Table head-->
+                                    <thead>
+                                        <tr>
+                                            <th class="p-0 "></th>
+                                            <th class="p-0 "></th>
+                                        </tr>
+                                    </thead>
+                                    <!--end::Table head-->
+                                    <!--begin::Table body-->
+                                    <tbody>
+                                        <tr *ngFor="let pe of peso; let i = index;">
+                                            <td>
+                                                <a href="#" onclick="return false;"
+                                                    class="text-dark fw-bolder text-hover-primary mb-1 fs-6">{{pe}}</a>
+                                            </td>
+                                            <td class="text-end text-muted fw-bold">
+
+                                                <button class="btn btn-sm btn-danger"
+                                                    (click)="removePeso(i)">X</button>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                    <!--end::Table body-->
+                                </table>
+                                <!--end::Table-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- peso -->
+                <!-- medidas -->
+                <div class="col-3">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="fs-6 fw-bold mt-2 mb-3"> Medidas:</div>
+                            <div class="d-flex">
+                                <input type="text" class="form-control form-control-solid"
+                                    (keyup.enter)="addMedidas()" [(ngModel)]="text_medidas"
+                                    name="medida" placeholder="10x10cm">
+                                <button class="btn btn-sm btn-primary mx-4" (click)="addMedidas()">+</button>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="table-responsive">
+                                <!--begin::Table-->
+                                <table class="table align-middle gs-0 gy-3">
+                                    <!--begin::Table head-->
+                                    <thead>
+                                        <tr>
+                                            <th class="p-0 "></th>
+                                            <th class="p-0 "></th>
+                                        </tr>
+                                    </thead>
+                                    <!--end::Table head-->
+                                    <!--begin::Table body-->
+                                    <tbody>
+                                        <tr *ngFor="let med of medida; let i = index;">
+                                            <td>
+                                                <a href="#" onclick="return false;"
+                                                    class="text-dark fw-bolder text-hover-primary mb-1 fs-6">{{med}}</a>
+                                            </td>
+                                            <td class="text-end text-muted fw-bold">
+
+                                                <button class="btn btn-sm btn-danger"
+                                                    (click)="removeMedida(i)">X</button>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                    <!--end::Table body-->
+                                </table>
+                                <!--end::Table-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- medidas -->
+            </div>
+            <!--end::Row-->
+            <!--begin::Row-->
+            <div class="row mb-8">
+                
+                <!-- requerimientos -->
                 <div class="col-6">
                     <div class="row">
                         <div class="col-12">
-                            <div class="fs-6 fw-bold mt-2 mb-3"> Requerimientos:</div>
+                            <div class="fs-6 fw-bold mt-2 mb-3"> Especificaciones Ordenadas:</div>
                             <div class="d-flex">
                                 <input type="text" class="form-control form-control-solid"
                                     (keyup.enter)="addRequirements()" [(ngModel)]="text_regueriments"
@@ -155,6 +349,8 @@
                         </div>
                     </div>
                 </div>
+                <!-- requerimientos -->
+                <!-- para quien -->
                 <div class="col-6">
                     <div class="row">
                         <div class="col-12">
@@ -201,7 +397,7 @@
                         </div>
                     </div>
                 </div>
-
+                <!-- para quien -->
             </div>
             <!--end::Row-->
 

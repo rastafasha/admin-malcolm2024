@@ -112,4 +112,17 @@ export class ProductService {
       finalize(()=> this.isLoadingSubject.next(false))
     ) 
   }
+
+  updateStatus(data: any, product_id: any) {
+
+    this.isLoadingSubject.next(true);
+    let headers = new HttpHeaders({'Authorization': 'Bearer'+this.authservice.token});
+
+    let URL = URL_SERVICIOS+'/product/update/status/'+product_id;
+
+    return this.http.put(URL, data,{headers: headers}).pipe(
+      finalize(()=> this.isLoadingSubject.next(false))
+    )
+
+  }
 }

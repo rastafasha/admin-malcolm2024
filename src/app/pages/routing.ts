@@ -56,6 +56,16 @@ const Routing: Routes = [
       import('../modules/categoria/categoria.module').then((m) => m.CategoriaModule),
   },
   {
+    path: 'categoria-portafolio',
+    loadChildren: () =>
+      import('../modules/categoria-portafolio/categoria-portafolio.module').then((m) => m.CategoriaPortafolioModule),
+  },
+  {
+    path: 'categoria-producto',
+    loadChildren: () =>
+      import('../modules/categoria-producto/categoria-producto.module').then((m) => m.CategoriaProductoModule),
+  },
+  {
     path: 'cursos',
     loadChildren: () =>
       import('../modules/course/course.module').then((m) => m.CourseModule),
@@ -75,11 +85,7 @@ const Routing: Routes = [
     loadChildren: () =>
       import('../modules/discount/discount.module').then((m) => m.DiscountModule),
   },
-  {
-    path: 'categoria-portafolio',
-    loadChildren: () =>
-      import('../modules/categoria-portafolio/categoria-portafolio.module').then((m) => m.CategoriaPortafolioModule),
-  },
+  
   {
     path: 'portafolio',
     loadChildren: () =>

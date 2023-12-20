@@ -6,6 +6,7 @@ import { CategoriaPortafolio } from '../../categoria-portafolio/categoria-portaf
 import { AuthService } from '../../auth/services/auth.service';
 import { UserService } from '../../user/service/user.service';
 import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-portafolio-add',
@@ -41,6 +42,7 @@ export class PortafolioAddComponent implements OnInit {
     public categoriaPortafolioService: CategoriaPortafolioService,
     public userService: UserService,
     public toaster: Toaster,
+    public router: Router,
     public authService: AuthService,
     private location: Location,
   ) { 
@@ -163,6 +165,7 @@ public onChange(event: any) {
           this.user_id = null;
           this.category_id = null;
           this.imagenPrevisualizar = null;
+          this.router.navigateByUrl("/portafolio/list");
         }
         
       }

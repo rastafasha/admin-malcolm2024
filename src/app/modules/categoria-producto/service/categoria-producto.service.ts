@@ -1,14 +1,15 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject, finalize } from 'rxjs';
+import { Observable, BehaviorSubject, finalize, map } from 'rxjs';
 import { AuthService } from '../../auth';
 import { URL_SERVICIOS } from 'src/app/config/config';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CategoriaService {
+export class CategoriaProductoService {
 
+  
   //variables template metronic
   isLoading$: Observable<boolean>;
   isLoadingSubject: BehaviorSubject<boolean>;
@@ -25,7 +26,7 @@ export class CategoriaService {
     this.isLoadingSubject.next(true);
     let headers = new HttpHeaders({'Authorization': 'Bearer'+this.authservice.token});
 
-    let URL = URL_SERVICIOS+'/category';
+    let URL = URL_SERVICIOS+'/categoria-product/store';
 
     return this.http.post(URL,data, {headers: headers}).pipe(
       finalize(()=> this.isLoadingSubject.next(false))
@@ -45,7 +46,7 @@ export class CategoriaService {
 
     }
 
-    let URL = URL_SERVICIOS+'/category/'+LINK;
+    let URL = URL_SERVICIOS+'/categoria-product/'+LINK;
 
     return this.http.get(URL, {headers: headers}).pipe(
       finalize(()=> this.isLoadingSubject.next(false))
@@ -56,7 +57,7 @@ export class CategoriaService {
     this.isLoadingSubject.next(true);
     let headers = new HttpHeaders({'Authorization': 'Bearer'+this.authservice.token});
 
-    let URL = URL_SERVICIOS+'/category/'+id;
+    let URL = URL_SERVICIOS+'/categoria-product/update/'+id;
 
     return this.http.post(URL,data, {headers: headers}).pipe(
       finalize(()=> this.isLoadingSubject.next(false))
@@ -68,7 +69,7 @@ export class CategoriaService {
     this.isLoadingSubject.next(true);
     let headers = new HttpHeaders({'Authorization': 'Bearer'+this.authservice.token});
 
-    let URL = URL_SERVICIOS+'/category/'+category_id;
+    let URL = URL_SERVICIOS+'/categoria-product/destroy/'+category_id;
 
     return this.http.delete(URL,{headers: headers}).pipe(
       finalize(()=> this.isLoadingSubject.next(false))

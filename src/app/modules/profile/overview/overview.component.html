@@ -249,6 +249,15 @@
       </ul>
     </div> -->
     <div class="d-flex overflow-auto h-55px">
+
+      <!-- <ul class="nav">
+        <li>
+            <a href="#" onclick="return false;" [ngClass]="{'active': option_selected == 1}" (click)="optionSelected(1)"><span class="set-about-icon me-2"><img src="assets/img/icons/menu-icon-02.svg" alt=""></span>About me</a>
+        </li>
+        <li>
+            <a href="#" onclick="return false;" [ngClass]="{'active': option_selected == 2}" (click)="optionSelected(2)"><span class="set-about-icon me-2"><img src="assets/img/icons/menu-icon-16.svg" alt=""></span>List Appointments</a>
+        </li>
+    </ul> -->
       <ul class="
           nav nav-stretch nav-line-tabs nav-line-tabs-2x
           border-transparent
@@ -257,32 +266,22 @@
           flex-nowrap
         ">
         <li class="nav-item">
-          <a class="nav-link text-active-primary me-6" [routerLink]="['/crafted/pages/profile/overview/', user.id]"
-            routerLinkActive="active">
+          <a href="#" onclick="return false;" class="nav-link text-active-primary me-6" [ngClass]="{'active': option_selected == 1}" (click)="optionSelected(1)">
             Overview
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link text-active-primary me-6" [routerLink]="['/crafted/pages/profile/projects/', user.id]"
-            routerLinkActive="active">
+         <li class="nav-item">
+          <a href="#" onclick="return false;" class="nav-link text-active-primary me-6" [ngClass]="{'active': option_selected == 2}" (click)="optionSelected(2)">
             Projects
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link text-active-primary me-6"  [routerLink]="['/crafted/pages/profile/campaigns/', user.id]"
-            routerLinkActive="active">
+         <li class="nav-item">
+          <a href="#" onclick="return false;" class="nav-link text-active-primary me-6" [ngClass]="{'active': option_selected == 3}" (click)="optionSelected(3)">
             Campaigns
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link text-active-primary me-6"  [routerLink]="['/crafted/pages/profile/documents/', user.id]"
-            routerLinkActive="active">
-            Documents
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-active-primary me-6"  [routerLink]="['/crafted/pages/profile/connections/', user.id]"
-            routerLinkActive="active">
+         <li class="nav-item">
+          <a href="#" onclick="return false;" class="nav-link text-active-primary me-6" [ngClass]="{'active': option_selected == 4}" (click)="optionSelected(4)">
             Connections
           </a>
         </li>
@@ -290,20 +289,38 @@
     </div>
   </div>
 </div>
-
-
-
-<div class="row g-5 g-xxl-8">
-  <div class="col-xl-6">
-    <app-feeds-widget2  class="card mb-5 mb-xxl-8"></app-feeds-widget2>
-    <app-feeds-widget3 class="card mb-5 mb-xxl-8"></app-feeds-widget3>
-    <app-feeds-widget4 class="card mb-5 mb-xxl-8"></app-feeds-widget4>
-    <app-feeds-widget5 class="card mb-5 mb-xxl-8"></app-feeds-widget5>
-    <app-feeds-widget6 class="card mb-5 mb-xxl-8"></app-feeds-widget6>
+<!-- Overview -->
+<ng-container *ngIf="option_selected == 1">
+  <div class="row g-5 g-xxl-8">
+    <div class="col-xl-6">
+      <app-feeds-widget2  class="card mb-5 mb-xxl-8"></app-feeds-widget2>
+      <app-feeds-widget3 class="card mb-5 mb-xxl-8"></app-feeds-widget3>
+      <app-feeds-widget4 class="card mb-5 mb-xxl-8"></app-feeds-widget4>
+      <app-feeds-widget5 class="card mb-5 mb-xxl-8"></app-feeds-widget5>
+      <app-feeds-widget6 class="card mb-5 mb-xxl-8"></app-feeds-widget6>
+    </div>
+    <div class="col-xl-6">
+      <app-charts-widget1 class="card mb-5 mb-xxl-8"></app-charts-widget1>
+      <app-lists-widget5 class="card mb-5 mb-xxl-8"></app-lists-widget5>
+      <app-lists-widget2 class="card mb-5 mb-xxl-8"></app-lists-widget2>
+    </div>
   </div>
-  <div class="col-xl-6">
-    <app-charts-widget1 class="card mb-5 mb-xxl-8"></app-charts-widget1>
-    <app-lists-widget5 class="card mb-5 mb-xxl-8"></app-lists-widget5>
-    <app-lists-widget2 class="card mb-5 mb-xxl-8"></app-lists-widget2>
-  </div>
-</div>
+</ng-container>
+<!-- Overview -->
+<!-- Projects -->
+<ng-container *ngIf="option_selected == 2">
+  <app-projects></app-projects>
+</ng-container>
+<!-- Projects -->
+<!-- Campaigns -->
+<ng-container *ngIf="option_selected == 3">
+  <app-campaigns></app-campaigns>
+</ng-container>
+<!-- Campaigns -->
+<!-- Connections -->
+<ng-container *ngIf="option_selected == 4">
+  <app-connections></app-connections>
+</ng-container>
+<!-- Connections -->
+
+

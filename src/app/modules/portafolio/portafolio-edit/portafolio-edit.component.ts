@@ -196,6 +196,7 @@ public onChange(event: any) {
       formData.append('portada', this.filePortada);
     }
 
+
     this.portafolioService.editarPortafolio(formData, this.portafolio_id).subscribe(
       (resp:any)=>{
         console.log(resp);
@@ -207,10 +208,11 @@ public onChange(event: any) {
           })
         }else{
           this.toaster.open({
-            text:'El Curso se Actualizó correctamente',
+            text:'El Proyecto se Actualizó correctamente',
             caption: 'Informe',
             type:'success'
           })
+          this.ngOnInit();
         }
         
       }
