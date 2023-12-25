@@ -10,6 +10,8 @@ export class MixedWidget11Component implements OnInit {
   @Input() chartHeight: string;
   chartOptions: any = {};
   sales:any;
+  total:any;
+  
   constructor(
     public dashboardService: DasboardService
   ) {}
@@ -21,8 +23,9 @@ export class MixedWidget11Component implements OnInit {
 
   getSales(){
     this.dashboardService.getSales().subscribe((resp:any)=>{
-      this.sales = resp;
-      console.log(resp);
+      this.sales = resp.data;
+      this.total = resp.data.total;
+      console.log(this.sales);
     })
   }
 }

@@ -15,7 +15,7 @@
                     </svg>
                 </span>
                 <!--end::Svg Icon-->
-                <input type="text" [(ngModel)]="search" data-kt-user-table-filter="search" class="form-control form-control-solid w-250px ps-14" placeholder="Search category" (keyup.enter)="listarCursos()" />
+                <input type="text" [(ngModel)]="search" data-kt-user-table-filter="search" class="form-control form-control-solid w-250px ps-14" placeholder="Search " (keyup.enter)="listarPedidos()" />
 
             </div>
             <!--end::Search-->
@@ -49,11 +49,12 @@
                         <!--begin::Input group-->
                         <div class="mb-10">
                             <label class="form-label fs-6 fw-bold">Estado:</label>
-                            <select [(ngModel)]="state" (change)="listarCursos()" class="form-select form-select-solid fw-bolder" data-kt-select2="true" data-placeholder="Select option" data-allow-clear="true" data-kt-user-table-filter="role" data-hide-search="true">
+                            <select [(ngModel)]="status" (change)="listarPedidos()" class="form-select form-select-solid fw-bolder" data-kt-select2="true" data-placeholder="Select option" data-allow-clear="true" data-kt-user-table-filter="role" data-hide-search="true">
                                 
                                 <option value="0">Todos</option>
-                                <option value="1">Prueba</option>
-                                <option value="2">Publico</option>
+                                <option value="1">Pendiente</option>
+                                <option value="2">Entregado</option>
+                                <option value="3">Cancelado</option>
                             </select>
                         </div>
                         <!--end::Input group-->
@@ -62,22 +63,12 @@
                 </div>
                 <!--end::Menu 1-->
                 <!--end::Filter-->
-               <!--begin::back-->
-               <a  (click)="goBack()" type="button" class="btn btn-danger">Volver </a>
-               <!--end::back-->
+               
                 
-                <!--begin::Add user-->
-                <a  [routerLink]="['/cursos/registro']" type="button" class="btn btn-primary">
-                <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
-                <span class="svg-icon svg-icon-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <rect opacity="0.5" x="11.364" y="20.364" width="16" height="2" rx="1" transform="rotate(-90 11.364 20.364)" fill="currentColor" />
-                        <rect x="4.36396" y="11.364" width="16" height="2" rx="1" fill="currentColor" />
-                    </svg>
-                </span>
-                <!--end::Svg Icon-->Add Course
-                </a>
                 <!--end::Add user-->
+                <!--begin::back-->
+                <a  (click)="goBack()" type="button" class="btn btn-danger">Volver </a>
+                <!--end::back-->
             </div>
             <!--end::Toolbar-->
             
@@ -87,7 +78,7 @@
     </div>
     <!--end::Card header-->
     <!--begin::Card body-->
-    <div class="card-body py-4">
+    <div class="card-body py-4 cuadro-scroll">
         <!--begin::Table-->
         <table class="table align-middle table-row-dashed fs-6 gy-5 table-responsive" id="kt_table_users">
             <!--begin::Table head-->
@@ -95,14 +86,15 @@
                 <!--begin::Table row-->
                 <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0">
                     
-                    <th class="min-w-125px">Imagen</th>
-                    <th class="min-w-125px">Nombre</th>
+                    
+                    <th class="min-w-125px">n_transaccion</th>
+                    <th class="min-w-125px">Payment Method</th>
+                    <th class="min-w-125px">Price $</th>
+                    <th class="min-w-125px">Price envio</th>
+                    <th class="min-w-125px">total</th>
+                    <th class="min-w-125px">Payment Currency</th>
                     <th class="min-w-125px">Status</th>
-                    <th class="min-w-125px">Categoría</th>
-                    <th class="min-w-125px">Precio USD</th>
-                    <!-- <th class="min-w-125px">Precio Bves</th> -->
-                    <!-- <th class="min-w-125px">Nivel</th> -->
-                    <th class="min-w-125px">Idioma</th>
+                    <th class="min-w-125px">Acción</th>
                     <th class="text-end min-w-100px">Actions</th>
                 </tr>
                 <!--end::Table row-->
@@ -111,84 +103,96 @@
             <!--begin::Table body-->
             <tbody class="text-gray-600 fw-bold">
                 <!--begin::Table row-->
-                <ng-container *ngFor="let curso of COURSES">
+                <ng-container *ngFor="let sale of SALES">
                     <tr>
                     
                         <!--begin::imagen=-->
-                        <td class="">
+                        <!-- <td class=""> -->
                             <!--begin:: Avatar -->
-                            <div class="symbol  symbol-50px overflow-hidden me-3" *ngIf="curso.imagen">
+                            <!-- <div class="symbol  symbol-50px overflow-hidden me-3" *ngIf="sale.imagen">
                                 <a href="#" onclick="return false">
                                     <div class="symbol-label">
-                                        <img [src]="curso.imagen" alt="{{curso.nombre}}" class="w-100" />
+                                        <img [src]="sale.imagen" alt="{{sale.title}}" class="w-100" />
                                     </div>
                                 </a>
-                            </div>
+                            </div> -->
                             <!--end::Avatar-->
-                        </td>
+                        <!-- </td> -->
                         <!--end::imagen=-->
                         
                         <!--end::Role=-->
                         <td class="">
                             <!--begin::User details-->
                             <div class="d-flex flex-column">
-                                <a href="#" class="text-gray-800 text-hover-primary mb-1">{{curso.title }}</a>
-                                <p>{{curso.level }}</p>
+                                <a href="#" onclick="return false" (click)="verVenta(sale)" class="text-gray-800 text-hover-primary mb-1">{{sale.n_transaccion }}</a>
+                            </div>
+                            <!--begin::User details-->
+                        </td>
+                        <td class="">
+                            <!--begin::User details-->
+                            <div class="d-flex flex-column">
+                                <a href="#" onclick="return false" class="text-gray-800 text-hover-primary mb-1">{{sale.method_payment }}</a>
+                            </div>
+                            <!--begin::User details-->
+                        </td>
+                        <td class="">
+                            <!--begin::User details-->
+                            <div class="d-flex flex-column">
+                                <a href="#" onclick="return false" class="text-gray-800 text-hover-primary mb-1">{{sale.price_dolar }}</a>
+                            </div>
+                            <!--begin::User details-->
+                        </td>
+                        <td class="">
+                            <!--begin::User details-->
+                            <div class="d-flex flex-column">
+                                <a href="#" onclick="return false" class="text-gray-800 text-hover-primary mb-1">{{sale.precio_envio }}</a>
+                            </div>
+                            <!--begin::User details-->
+                        </td>
+                        <td class="">
+                            <!--begin::User details-->
+                            <div class="d-flex flex-column">
+                                <a href="#" onclick="return false" class="text-gray-800 text-hover-primary mb-1">{{sale.total }}</a>
+                            </div>
+                            <!--begin::User details-->
+                        </td>
+                        <td class="">
+                            <!--begin::User details-->
+                            <div class="d-flex flex-column">
+                                <a href="#" onclick="return false" class="text-gray-800 text-hover-primary mb-1">{{sale.currency_payment }}</a>
                             </div>
                             <!--begin::User details-->
                         </td>
                         <td>
                             <div class="badge badge-light fw-bolder">
-                                <div class="badge badge-light-danger fw-bolder" *ngIf="curso.state == 1">Prueba</div>
-                                <div class="badge badge-light-success fw-bolder" *ngIf="curso.state == 2">Publico</div>
+                                <div class="badge badge-light-warning fw-bolder" *ngIf="sale.status == 1">Pendiente</div>
+                                <div class="badge badge-light-success fw-bolder" *ngIf="sale.status == 2">Entregado</div>
+                                <div class="badge badge-light-danger fw-bolder" *ngIf="sale.status == 3">Cancelado</div>
                             </div>
+                        </td>
+                        
+                        <td>
+                            <select class="form-control" [(ngModel)]="sale.status" (change)="cambiarStatus(sale)">
+                          <option value="1">Pendiente</option>
+                          <option value="2">Entregado</option>
+                          <option value="3">Cancelado</option>
+                        </select>
                         </td>
                         <!--end::Last login=-->
                         <!--begin::Joined-->
                         <td>
-                            <a href="#" onclick="return false" class="text-gray-800 text-hover-primary mb-1">{{curso.category.name }}</a>
+                            <!-- <a href="#" onclick="return false" class="text-gray-800 text-hover-primary mb-1">{{blog.category.name }}</a> -->
                             
-                        </td>
-                        <td class="">
-                            <!--begin::User details-->
-                            <div class="d-flex flex-column">
-                                <a href="#" class="text-gray-800 text-hover-primary mb-1">{{curso.price_usd | currency }}</a>
-                            </div>
-                            <!--begin::User details-->
-                        </td>
-                        
-                        <td class="">
-                            <!--begin::User details-->
-                            <div class="d-flex flex-column">
-                                <a href="#" class="text-gray-800 text-hover-primary mb-1">{{curso.idioma }}</a>
-                            </div>
-                            <!--begin::User details-->
                         </td>
                         <!--begin::Joined-->
                         <!--begin::Action=-->
                         <td class="text-end">
                             <div class="d-flex justify-content-end flex-shrink-0">
                                 
-                                <a [routerLink]="['/cursos/list/secciones', curso.id]" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1"  >
-                                    <span class="svg-icon svg-icon-3">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                            <path opacity="0.3" d="M18 22C19.7 22 21 20.7 21 19C21 18.5 20.9 18.1 20.7 17.7L15.3 6.30005C15.1 5.90005 15 5.5 15 5C15 3.3 16.3 2 18 2H6C4.3 2 3 3.3 3 5C3 5.5 3.1 5.90005 3.3 6.30005L8.7 17.7C8.9 18.1 9 18.5 9 19C9 20.7 7.7 22 6 22H18Z" fill="currentColor"></path>
-                                            <path d="M18 2C19.7 2 21 3.3 21 5H9C9 3.3 7.7 2 6 2H18Z" fill="currentColor"></path>
-                                            <path d="M9 19C9 20.7 7.7 22 6 22C4.3 22 3 20.7 3 19H9Z" fill="currentColor"></path>
-                                        </svg>
-                                    </span>
-                                </a>
-                                <a [routerLink]="['/cursos/list/editar', curso.id]" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1"  >
-                                    <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
-                                    <span class="svg-icon svg-icon-3">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                            <path opacity="0.3" d="M21.4 8.35303L19.241 10.511L13.485 4.755L15.643 2.59595C16.0248 2.21423 16.5426 1.99988 17.0825 1.99988C17.6224 1.99988 18.1402 2.21423 18.522 2.59595L21.4 5.474C21.7817 5.85581 21.9962 6.37355 21.9962 6.91345C21.9962 7.45335 21.7817 7.97122 21.4 8.35303ZM3.68699 21.932L9.88699 19.865L4.13099 14.109L2.06399 20.309C1.98815 20.5354 1.97703 20.7787 2.03189 21.0111C2.08674 21.2436 2.2054 21.4561 2.37449 21.6248C2.54359 21.7934 2.75641 21.9115 2.989 21.9658C3.22158 22.0201 3.4647 22.0084 3.69099 21.932H3.68699Z" fill="currentColor" />
-                                            <path d="M5.574 21.3L3.692 21.928C3.46591 22.0032 3.22334 22.0141 2.99144 21.9594C2.75954 21.9046 2.54744 21.7864 2.3789 21.6179C2.21036 21.4495 2.09202 21.2375 2.03711 21.0056C1.9822 20.7737 1.99289 20.5312 2.06799 20.3051L2.696 18.422L5.574 21.3ZM4.13499 14.105L9.891 19.861L19.245 10.507L13.489 4.75098L4.13499 14.105Z" fill="currentColor" />
-                                        </svg>
-                                    </span>
-                                    <!--end::Svg Icon-->
-                                </a>
-                                <a href="#" onclick="return false" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm" (click)="eliminarCurso(curso)" >
+                               
+                                
+                                
+                                <a href="#" onclick="return false" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm" (click)="eliminarBlog(blog)" >
                                     <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
                                     <span class="svg-icon svg-icon-3">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">

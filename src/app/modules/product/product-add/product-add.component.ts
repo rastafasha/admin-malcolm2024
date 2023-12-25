@@ -13,6 +13,7 @@ export class ProductAddComponent implements OnInit {
   subcategories:any=[];
   subcategories_back:any=[];
   categories:any=[];
+  salecategories:any=[];
   instructors:any=[];
   requirements:any=[];
   who_is_it_fors:any=[];
@@ -43,6 +44,7 @@ export class ProductAddComponent implements OnInit {
   user_id:any=null;
   category_product_id:any=null;
   sub_category_id:any=null;
+  category_sale_id:any=null;
   who_is_it_for:any=null;
 
   constructor(
@@ -56,6 +58,7 @@ export class ProductAddComponent implements OnInit {
     window.scrollTo(0,0);
     this.isLoading = this.productService.isLoading$;
     this.listarCategorias();
+    this.listarCategoriaVentas();
   }
   goBack() {
     this.location.back(); // <-- go back to previous location on cancel
@@ -68,6 +71,14 @@ export class ProductAddComponent implements OnInit {
         this.subcategories = res.subcategories;
         this.instructors = res.instructors;
         // console.log(this.instructors);
+      }
+    )
+  }
+  listarCategoriaVentas(){
+    this.productService.categoriaVentas().subscribe(
+      (res:any)=>{
+        this.salecategories = res.salecategories;
+        console.log(res);
       }
     )
   }
@@ -235,6 +246,7 @@ public onChange(event: any) {
     formData.append('user_id', this.user_id);
     formData.append('category_product_id', this.category_product_id);
     formData.append('sub_category_id', this.sub_category_id);
+    formData.append('category_sale_id', this.category_sale_id);
     formData.append('who_is_it_for', this.who_is_it_fors);
     formData.append('requirements', this.requirements);
     formData.append('colors', this.colors);

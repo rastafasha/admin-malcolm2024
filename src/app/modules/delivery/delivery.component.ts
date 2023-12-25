@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Delivery } from 'src/app/models/dlivery.model';
 import { DeliveryService } from 'src/app/services/delivery.service';
 import { DeliveryDeleteComponent } from './delivery-delete/delivery-delete.component';
 import { Toaster } from 'ngx-toast-notifications';
 import { Location } from '@angular/common';
+
 
 @Component({
   selector: 'app-delivery',
@@ -19,9 +18,10 @@ export class DeliveryComponent implements OnInit {
   public identity;
   isLoading:any;
   titulo:any =null;
-tiempo:any =null;
-precio:any =null;
-dias:any =null;
+  tiempo:any =null;
+  precio:any =null;
+  dias:any =null;
+
   constructor(
     private deliveryService : DeliveryService,
     public modalService: NgbModal,
@@ -31,7 +31,9 @@ dias:any =null;
 
   ngOnInit(): void {
     this.isLoading = this.deliveryService.isLoading$;
+    window.scrollTo(0,0);
     this.listar();
+    
   }
 
   goBack() {
@@ -75,8 +77,8 @@ dias:any =null;
   listar(){
     this.deliveryService.listar().subscribe(
       (resp:any) =>{
-        this.deliveries = resp.deliveries.data;
-        // console.log(this.deliveries);
+        this.deliveries = resp.deliveries;
+        console.log(this.deliveries);
 
       }
     );

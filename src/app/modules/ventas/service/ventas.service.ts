@@ -1,14 +1,15 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject, finalize, map } from 'rxjs';
-import { AuthService } from '../../auth';
+import { Observable, BehaviorSubject, finalize } from 'rxjs';
 import { URL_SERVICIOS } from 'src/app/config/config';
+import { AuthService } from '../../auth';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class VentasService {
 
+  
   isLoading$: Observable<boolean>;
   isLoadingSubject: BehaviorSubject<boolean>;
   
@@ -33,18 +34,9 @@ export class UserService {
     }
   }
 
-  register(data:any){
-    this.isLoadingSubject.next(true);
-    let headers = new HttpHeaders({'Authorization': 'Bearer'+this.authservice.token});
+ 
 
-    let URL = URL_SERVICIOS+'/user';
-
-    return this.http.post(URL,data, {headers: headers}).pipe(
-      finalize(()=> this.isLoadingSubject.next(false))
-    )
-  }
-
-  list(search:any, state: any){
+  list(search:any, status: any){
     this.isLoadingSubject.next(true);
     let headers = new HttpHeaders({'Authorization': 'Bearer'+this.authservice.token});
 
@@ -52,76 +44,82 @@ export class UserService {
     if(search){
       LINK += "&search="+search;
     }
-    if(state){
-      LINK += "&state="+state;
+    if(status){
+      LINK += "&status="+status;
 
     }
 
-    let URL = URL_SERVICIOS+'/user'+LINK;
-
-    return this.http.get(URL, {headers: headers}).pipe(
-      finalize(()=> this.isLoadingSubject.next(false))
-    )
-  }
-  listClientes(){
-    this.isLoadingSubject.next(true);
-    let headers = new HttpHeaders({'Authorization': 'Bearer'+this.authservice.token});
-
-    let URL = URL_SERVICIOS+'/users';
+    let URL = URL_SERVICIOS+'/sale/'+LINK;
 
     return this.http.get(URL, {headers: headers}).pipe(
       finalize(()=> this.isLoadingSubject.next(false))
     )
   }
 
-  editar(data:any, user_id:string){
+  categoriaVentas(){
     this.isLoadingSubject.next(true);
     let headers = new HttpHeaders({'Authorization': 'Bearer'+this.authservice.token});
 
-    let URL = URL_SERVICIOS+'/user/'+user_id;
 
-    return this.http.post(URL,data, {headers: headers}).pipe(
+    let URL = URL_SERVICIOS+'/sale-categories';
+
+    return this.http.get(URL, {headers: headers}).pipe(
+      finalize(()=> this.isLoadingSubject.next(false))
+    )
+  }
+  config(){
+    this.isLoadingSubject.next(true);
+    let headers = new HttpHeaders({'Authorization': 'Bearer'+this.authservice.token});
+
+    let URL = URL_SERVICIOS+'/sale/config/';
+
+    return this.http.get(URL, {headers: headers}).pipe(
+      finalize(()=> this.isLoadingSubject.next(false))
+    )
+  }
+  listEntregados(){
+    this.isLoadingSubject.next(true);
+    let headers = new HttpHeaders({'Authorization': 'Bearer'+this.authservice.token});
+
+    let URL = URL_SERVICIOS+'/sale/entregado/';
+
+    return this.http.get(URL, {headers: headers}).pipe(
       finalize(()=> this.isLoadingSubject.next(false))
     )
   }
 
-  delete(user_id:string){
+  listCancelados(){
     this.isLoadingSubject.next(true);
     let headers = new HttpHeaders({'Authorization': 'Bearer'+this.authservice.token});
 
-    let URL = URL_SERVICIOS+'/user/'+user_id;
+    let URL = URL_SERVICIOS+'/sale/cancelado/';
+
+    return this.http.get(URL, {headers: headers}).pipe(
+      finalize(()=> this.isLoadingSubject.next(false))
+    )
+  }
+
+
+  delete(sale_id:string){
+    this.isLoadingSubject.next(true);
+    let headers = new HttpHeaders({'Authorization': 'Bearer'+this.authservice.token});
+
+    let URL = URL_SERVICIOS+'/sale/destroy/'+sale_id;
 
     return this.http.delete(URL,{headers: headers}).pipe(
       finalize(()=> this.isLoadingSubject.next(false))
     )
   }
 
-  yo(user:any){
-    let headers = new HttpHeaders({'Authorization': 'Bearer'+this.authservice.token});
-    // let headers = this.headers;
-    let URL = URL_SERVICIOS+'/auth/me';
-    return this.http.post(URL,user, {headers: headers})
-  }
+ 
 
-  getUserById(id:number): Observable<any> {
-
-    const url = `${URL_SERVICIOS}/users/showuser/${id}`;
-    return this.http.get<any>(url, this.headers)
-      .pipe(
-        map((resp:{ok: boolean, user}) => resp.user)
-        );
-
-  }
-
-  getUser(user_id:any){
+  updateStatus(sale:any) {
     this.isLoadingSubject.next(true);
     let headers = new HttpHeaders({'Authorization': 'Bearer'+this.authservice.token});
 
-    let URL = URL_SERVICIOS+'/user/'+user_id;
-
-    return this.http.get(URL, {headers: headers}).pipe(
-      finalize(()=> this.isLoadingSubject.next(false))
-    )
+    const url = `${URL_SERVICIOS}/sale/update-status/${sale.id}`;
+    return this.http.put(url, sale, {headers: headers});
   }
+
 
 }

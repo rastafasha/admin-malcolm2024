@@ -7,7 +7,7 @@
             symbol symbol-100px symbol-lg-160px symbol-fixed
             position-relative
           ">
-          <img src="./assets/media/avatars/300-1.jpg" alt="Metronic" />
+          <img src="{{user.avatar}}" alt="{{user.name}}" />
           <div class="
               position-absolute
               translate-middle
@@ -47,17 +47,9 @@
                     './assets/media/icons/duotune/general/gen026.svg'
                   " class="svg-icon svg-icon-1 svg-icon-primary"></span>
               </a>
-              <a class="
-                  btn btn-sm btn-light-success
-                  fw-bolder
-                  ms-2
-                  fs-8
-                  py-1
-                  px-3
-                  cursor-pointer
-                " data-bs-toggle="modal" data-bs-target="#kt_modal_upgrade_plan">
-                Upgrade to Pro
-              </a>
+              <div class="badge badge-light-success fw-bolder" *ngIf="state === 2">Activo</div>
+              <div class="badge badge-light-danger fw-bolder" *ngIf="state === 1">Inactivo</div>
+                                                        
             </div>
 
             <div class="d-flex flex-wrap fw-bold fs-6 mb-4 pe-2">
@@ -74,7 +66,7 @@
                   " class="svg-icon svg-icon-4 me-1"></span>
                 {{user.profesion}}
               </a>
-              <a class="
+              <a *ngIf="direccion" class="
                   d-flex
                   align-items-center
                   text-gray-400 text-hover-primary
@@ -85,7 +77,20 @@
                 <span [inlineSVG]="
                     './assets/media/icons/duotune/general/gen018.svg'
                   " class="svg-icon svg-icon-4 me-1"></span>
-                SF, Bay Area
+                {{direccion.ciudad}}
+              </a>
+              <a *ngIf="user.phone != null" class="
+                  d-flex
+                  align-items-center
+                  text-gray-400 text-hover-primary
+                  me-5
+                  mb-2
+                  cursor-pointer
+                ">
+                <span [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen018.svg'
+                  " class="svg-icon svg-icon-4 me-1"></span>
+                {{user.phone}}
               </a>
               <a class="
                   d-flex
@@ -102,7 +107,7 @@
             </div>
           </div>
 
-          <div class="d-flex my-4">
+          <!-- <div class="d-flex my-4">
             <a class="btn btn-sm btn-light me-2 cursor-pointer" id="kt_user_follow_button">
               <span [inlineSVG]="'./assets/media/icons/duotune/arrows/arr012.svg'"
                 class="svg-icon svg-icon-3 d-none"></span>
@@ -124,7 +129,7 @@
               </button>
               <app-dropdown-menu1></app-dropdown-menu1>
             </div>
-          </div>
+          </div> -->
         </div>
 
         <div class="d-flex flex-wrap flex-stack">
@@ -143,7 +148,7 @@
                   <span [inlineSVG]="
                       './assets/media/icons/duotune/arrows/arr066.svg'
                     " class="svg-icon svg-icon-3 svg-icon-success me-2"></span>
-                  <div class="fs-2 fw-bolder">4500$</div>
+                  <div class="fs-2 fw-bolder">${{total}}</div>
                 </div>
 
                 <div class="fw-bold fs-6 text-gray-400">Earnings</div>
@@ -159,13 +164,27 @@
                   mb-3
                 ">
                 <div class="d-flex align-items-center">
-                  <span [inlineSVG]="
-                      './assets/media/icons/duotune/arrows/arr065.svg'
-                    " class="svg-icon svg-icon-3 svg-icon-danger me-2"></span>
-                  <div class="fs-2 fw-bolder">75</div>
+                  <div class="fs-2 fw-bolder">{{products.length}}</div>
                 </div>
-
-                <div class="fw-bold fs-6 text-gray-400">Projects</div>
+                <div class="fw-bold fs-6 text-gray-400">Productos</div>
+                <div class="fw-bold fs-6 text-gray-400" *ngIf="role.name === 'ADMIN'">Creados</div>
+                <div class="fw-bold fs-6 text-gray-400" *ngIf="role.name === 'CLIENTE'">Comprados</div>
+              </div>
+              <div class="
+                  border border-gray-300 border-dashed
+                  rounded
+                  min-w-125px
+                  py-3
+                  px-4
+                  me-6
+                  mb-3
+                ">
+                <div class="d-flex align-items-center">
+                  <div class="fs-2 fw-bolder">{{usercourses.length}}</div>
+                </div>
+                <div class="fw-bold fs-6 text-gray-400">Cursos</div>
+                <div class="fw-bold fs-6 text-gray-400" *ngIf="role.name === 'ADMIN'">Creados</div>
+                <div class="fw-bold fs-6 text-gray-400" *ngIf="role.name === 'CLIENTE'">Comprados</div>
               </div>
 
               <div class="
@@ -208,56 +227,8 @@
       </div>
     </div>
 
-    <!-- <div class="d-flex overflow-auto h-55px">
-      <ul class="
-          nav nav-stretch nav-line-tabs nav-line-tabs-2x
-          border-transparent
-          fs-5
-          fw-bolder
-          flex-nowrap
-        ">
-        <li class="nav-item">
-          <a class="nav-link text-active-primary me-6" routerLink="/crafted/pages/profile/overview"
-            routerLinkActive="active">
-            Overview
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-active-primary me-6" routerLink="/crafted/pages/profile/projects"
-            routerLinkActive="active">
-            Projects
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-active-primary me-6" routerLink="/crafted/pages/profile/campaigns"
-            routerLinkActive="active">
-            Campaigns
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-active-primary me-6" routerLink="/crafted/pages/profile/documents"
-            routerLinkActive="active">
-            Documents
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-active-primary me-6" routerLink="/crafted/pages/profile/connections"
-            routerLinkActive="active">
-            Connections
-          </a>
-        </li>
-      </ul>
-    </div> -->
     <div class="d-flex overflow-auto h-55px">
 
-      <!-- <ul class="nav">
-        <li>
-            <a href="#" onclick="return false;" [ngClass]="{'active': option_selected == 1}" (click)="optionSelected(1)"><span class="set-about-icon me-2"><img src="assets/img/icons/menu-icon-02.svg" alt=""></span>About me</a>
-        </li>
-        <li>
-            <a href="#" onclick="return false;" [ngClass]="{'active': option_selected == 2}" (click)="optionSelected(2)"><span class="set-about-icon me-2"><img src="assets/img/icons/menu-icon-16.svg" alt=""></span>List Appointments</a>
-        </li>
-    </ul> -->
       <ul class="
           nav nav-stretch nav-line-tabs nav-line-tabs-2x
           border-transparent
@@ -265,24 +236,24 @@
           fw-bolder
           flex-nowrap
         ">
-        <li class="nav-item">
+        <li class="nav-item" >
           <a href="#" onclick="return false;" class="nav-link text-active-primary me-6" [ngClass]="{'active': option_selected == 1}" (click)="optionSelected(1)">
             Overview
           </a>
         </li>
-         <li class="nav-item">
+         <li class="nav-item"  *ngIf="role.name === 'CLIENTE'">
           <a href="#" onclick="return false;" class="nav-link text-active-primary me-6" [ngClass]="{'active': option_selected == 2}" (click)="optionSelected(2)">
-            Projects
+            Compras
           </a>
         </li>
-         <li class="nav-item">
+         <li class="nav-item"  *ngIf="role.name === 'ADMIN'">
           <a href="#" onclick="return false;" class="nav-link text-active-primary me-6" [ngClass]="{'active': option_selected == 3}" (click)="optionSelected(3)">
-            Campaigns
+            Cursos
           </a>
         </li>
-         <li class="nav-item">
+         <li class="nav-item"  *ngIf="role.name === 'ADMIN'">
           <a href="#" onclick="return false;" class="nav-link text-active-primary me-6" [ngClass]="{'active': option_selected == 4}" (click)="optionSelected(4)">
-            Connections
+            Productos
           </a>
         </li>
       </ul>
@@ -292,17 +263,31 @@
 <!-- Overview -->
 <ng-container *ngIf="option_selected == 1">
   <div class="row g-5 g-xxl-8">
-    <div class="col-xl-6">
-      <app-feeds-widget2  class="card mb-5 mb-xxl-8"></app-feeds-widget2>
-      <app-feeds-widget3 class="card mb-5 mb-xxl-8"></app-feeds-widget3>
-      <app-feeds-widget4 class="card mb-5 mb-xxl-8"></app-feeds-widget4>
-      <app-feeds-widget5 class="card mb-5 mb-xxl-8"></app-feeds-widget5>
-      <app-feeds-widget6 class="card mb-5 mb-xxl-8"></app-feeds-widget6>
+    <div class="col-xs-12" *ngIf="user.role.name === 'CLIENTE'">
+      <div class="col-xl-6">
+        <app-feeds-widget2 [childMessage]="user"  class="card mb-5 mb-xxl-8"></app-feeds-widget2>
+        <!-- <app-feeds-widget4 class="card mb-5 mb-xxl-8"></app-feeds-widget4>
+        <app-feeds-widget5 class="card mb-5 mb-xxl-8"></app-feeds-widget5>
+        <app-feeds-widget6 class="card mb-5 mb-xxl-8"></app-feeds-widget6> -->
+      </div>
+      <div class="col-xl-6">
+        <app-lists-widget2 [childMessage]="user" class="card mb-5 mb-xxl-8"></app-lists-widget2>
+        
+        <!-- <app-charts-widget1 class="card mb-5 mb-xxl-8"></app-charts-widget1>
+        <app-lists-widget5 class="card mb-5 mb-xxl-8"></app-lists-widget5> -->
     </div>
-    <div class="col-xl-6">
-      <app-charts-widget1 class="card mb-5 mb-xxl-8"></app-charts-widget1>
+    </div>
+    <div class="col-xs-12" *ngIf="user.role.name === 'ADMIN'">
+      <div class="col-xl-6">
+        <app-charts-widget1 class="card mb-5 mb-xxl-8"></app-charts-widget1>
+        <!-- <app-feeds-widget5 class="card mb-5 mb-xxl-8"></app-feeds-widget5> -->
+        <app-feeds-widget6 class="card mb-5 mb-xxl-8"></app-feeds-widget6>
+      </div>
+      <div class="col-xl-6">
+        <app-feeds-widget3 [childMessage]="user" class="card mb-5 mb-xxl-8"></app-feeds-widget3>
+        <!-- <app-feeds-widget4 class="card mb-5 mb-xxl-8"></app-feeds-widget4> -->
       <app-lists-widget5 class="card mb-5 mb-xxl-8"></app-lists-widget5>
-      <app-lists-widget2 class="card mb-5 mb-xxl-8"></app-lists-widget2>
+    </div>
     </div>
   </div>
 </ng-container>

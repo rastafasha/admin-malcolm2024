@@ -19,6 +19,8 @@ export class TopbarComponent implements OnInit {
   
   user$: Observable<any>;
   user: any = null;
+  usuariotop: any = null;
+  token: any = null;
   imagenSerUrl = environment.apiUrlMedia;
 
   constructor(
@@ -29,9 +31,19 @@ export class TopbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = this.userService.authservice.user;
+    this.token = this.userService.authservice.token;
     this.user$ = this.auth.currentUserSubject.asObservable();
     this.headerLeft = this.layout.getProp('header.left') as string;
     // this.getCurrentUser();
+    // console.log(this.user);
+    this.getUserRemoto();
+  }
+
+  getUserRemoto(){
+    this.userService.yo( this.token ).subscribe((resp:any)=>{
+      // console.log(resp);
+      this.usuariotop = resp;
+    })
   }
 
   

@@ -6,16 +6,23 @@ import { DasboardService } from 'src/app/services/dasboard.service';
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
+  styleUrls: ['./overview.component.scss'],
 })
 export class OverviewComponent implements OnInit {
   @Input() user: User;
   // user:any=null;
   user_id:any=null;
+  direccion:any=[];
+  usercourses:any=[];
+  products:any=[];
+  role:any=[];
+  state:number;
+  total:number;
   id:number;
   isLoading:any;
   parentMessage = "message from parent";
   option_selected:number = 1;
-  
+ 
   constructor(
     public activatedRoute: ActivatedRoute,
     public dashboarService: DasboardService,
@@ -36,6 +43,12 @@ export class OverviewComponent implements OnInit {
     this.dashboarService.getUserById(id).subscribe(
       (res:any)=>{
         this.user = res;
+        this.usercourses = res.courses;
+        this.state = res.state;
+        this.direccion = res.direccions[0];
+        this.products = res.products;
+        this.role = res.role;
+        this.total = res.total;
         console.log(this.user);
       }
     )
@@ -45,4 +58,6 @@ export class OverviewComponent implements OnInit {
     this.option_selected = value;
     console.log(value);
   }
+
+  
 }

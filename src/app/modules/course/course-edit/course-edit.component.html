@@ -75,7 +75,7 @@
                     </div>
                 </div>
                 
-                <div class="col-2">
+                <div class="col-xs-12 col-sm-2">
                     <div class="fs-6 fw-bold mt-2 mb-3">Nivel</div>
                     <select
                     class="form-control form-select-solid fw-bolder"
@@ -88,7 +88,7 @@
                     <option value="Avanzado">Avanzado</option>
                 </select>
                 </div>
-                <div class="col-2">
+                <div class="col-xs-12 col-sm-2">
                     <div class="fs-6 fw-bold mt-2 mb-3">Idioma</div>
                     <select
                     class="form-control form-select-solid fw-bolder"
@@ -100,7 +100,7 @@
                     <option value="Ingles">Ingles</option>
                 </select>
                 </div>
-                <div class="col-4">
+                <div class="col-xs-12 col-sm-2">
                     <div class="fs-6 fw-bold mt-2 mb-3">Instructor</div>
                     <select
                     class="form-control form-select-solid fw-bolder"
@@ -112,6 +112,15 @@
                         <option [value]="instructor.id">{{instructor.full_name}}</option>
                     </ng-container>
                 </select>
+                </div>
+                <div class="col-xs-12 col-sm-2">
+                    <div class="fs-6 fw-bold mt-2 mb-3">Categoría Venta</div>
+                    <select class="form-control form-select-solid fw-bolder" name="category_sale_id"
+                        [(ngModel)]="category_sale_id" placeholder="Selec. Cat.Venta">
+                        <ng-container *ngFor="let salecategory of salecategories">
+                            <option [value]="salecategory.id">{{salecategory.name}}</option>
+                        </ng-container>
+                    </select>
                 </div>
                 
             </div>

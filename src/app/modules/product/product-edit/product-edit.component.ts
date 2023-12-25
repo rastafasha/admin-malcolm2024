@@ -12,6 +12,7 @@ import { Location } from '@angular/common';
 })
 export class ProductEditComponent implements OnInit {
 
+  salecategories:any=[];
   subcategories:any=[];
   subcategories_back:any=[];
   category_products:any=[];
@@ -50,6 +51,7 @@ export class ProductEditComponent implements OnInit {
   category_product_id:any=null;
   sub_category_id:any=null;
   who_is_it_for:any=null;
+  category_sale_id:any=null;
 
   videocurso: any = null;
   url: any = null;
@@ -77,9 +79,19 @@ export class ProductEditComponent implements OnInit {
       }
     )
     this.listarCategorias();
+    this.listarCategoriaVentas();
   }
   goBack() {
     this.location.back(); // <-- go back to previous location on cancel
+  }
+
+  listarCategoriaVentas(){
+    this.productService.categoriaVentas().subscribe(
+      (res:any)=>{
+        this.salecategories = res.salecategories;
+        console.log(res);
+      }
+    )
   }
 
   showCourse(product_id:number) {
@@ -104,6 +116,7 @@ export class ProductEditComponent implements OnInit {
         this.peso = this.productSelected.peso;
         this.imagenPrevisualizar = this.productSelected.imagen;
         this.state = this.productSelected.state;
+        this.category_sale_id =this.productSelected.category_sale_id;
 
 
         console.log(this.productSelected);
@@ -328,6 +341,7 @@ public onChange(event: any) {
     formData.append('user_id', this.user_id);
     formData.append('category_product_id', this.category_product_id);
     formData.append('sub_category_id', this.sub_category_id);
+    formData.append('category_sale_id', this.category_sale_id);
     formData.append('who_is_it_for', this.who_is_it_fors);
     formData.append('requirements', this.requirements);
     formData.append('colors', this.colors);

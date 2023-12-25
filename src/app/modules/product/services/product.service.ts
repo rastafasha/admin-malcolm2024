@@ -45,7 +45,7 @@ export class ProductService {
 
     }
 
-    let URL = URL_SERVICIOS+'/product'+LINK;
+    let URL = URL_SERVICIOS+'/product/'+LINK;
 
     return this.http.get(URL, {headers: headers}).pipe(
       finalize(()=> this.isLoadingSubject.next(false))
@@ -124,5 +124,17 @@ export class ProductService {
       finalize(()=> this.isLoadingSubject.next(false))
     )
 
+  }
+
+  categoriaVentas(){
+    this.isLoadingSubject.next(true);
+    let headers = new HttpHeaders({'Authorization': 'Bearer'+this.authservice.token});
+
+
+    let URL = URL_SERVICIOS+'/sale-categories';
+
+    return this.http.get(URL, {headers: headers}).pipe(
+      finalize(()=> this.isLoadingSubject.next(false))
+    )
   }
 }

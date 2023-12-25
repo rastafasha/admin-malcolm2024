@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { getCSSVariableValue } from '../../../../../kt/_utils';
+import { VentasService } from 'src/app/modules/ventas/service/ventas.service';
 @Component({
   selector: 'app-mixed-widget2',
   templateUrl: './mixed-widget2.component.html',
@@ -10,7 +11,9 @@ export class MixedWidget2Component implements OnInit {
   @Input() chartHeight: string = '';
   chartOptions: any = {};
 
-  constructor() {}
+  constructor(
+    public ventaService:VentasService
+  ) {}
 
   ngOnInit(): void {
     this.chartOptions = getChartOptions(
@@ -18,6 +21,13 @@ export class MixedWidget2Component implements OnInit {
       this.chartColor,
       this.strokeColor
     );
+    this.getSaleData();
+  }
+
+  getSaleData(){
+    this.ventaService.listEntregados().subscribe((resp:any)=>{
+      console.log(resp);
+    })
   }
 }
 
@@ -29,6 +39,7 @@ function getChartOptions(
   const labelColor = getCSSVariableValue('--bs-gray-500');
   const borderColor = getCSSVariableValue('--bs-gray-200');
   const color = getCSSVariableValue('--bs-' + chartColor);
+  const data = chartColor;
 
   return {
     series: [
@@ -78,7 +89,20 @@ function getChartOptions(
       colors: [strokeColor],
     },
     xaxis: {
-      categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
+      categories: [
+        'Jan',
+          'Feb',
+          'Mar',
+          'Apr',
+          'May',
+          'Jun',
+          'Jul',
+          'Aug',
+          'Sep',
+          'Oct',
+          'Nov',
+          'Dec',
+      ],
       axisBorder: {
         show: false,
       },

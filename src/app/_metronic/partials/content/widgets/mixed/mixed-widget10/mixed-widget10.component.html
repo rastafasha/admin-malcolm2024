@@ -11,11 +11,11 @@
         </div>
       </div>
 
-      <div class="fw-bolder fs-3" [ngClass]="'text-' + chartColor">$24,500</div>
+      <!-- <div class="fw-bolder fs-3" [ngClass]="'text-' + chartColor">$24,500</div> -->
     </div>
   </div>
 
-  <div
+  <!-- <div
     #chartRef
     class="mixed-widget-7-chart card-rounded-bottom"
     [style.height]="chartHeight"
@@ -35,5 +35,58 @@
       [markers]="chartOptions.markers"
       [plotOptions]="chartOptions.plotOptions"
     ></apx-chart>
+  </div> -->
+
+
+<div class="row">
+
+  <div class="col-12 col-md-12 col-lg-12 col-xl-7">
+    <div class="card">
+        <div class="card-body">
+            <div class="chart-title patient-visit mb-0">
+                <h4>Income</h4>
+                <!-- <div class="income-value" >
+                    <h3><span>$</span> 20,560</h3>
+                    <p><span class="passive-view"><i class="feather icon-arrow-up-right me-1"></i>40%</span> vs last month</p>
+                </div> -->
+                <div class="form-group mb-0">
+                     <mat-select [(ngModel)]="selectedValue" class="form-control select" (selectionChange)="selectedYear()"  placeholder="2022">
+                            <mat-option *ngFor="let data of selecedList" [value]="data.value">
+                              {{data.value}}
+                            </mat-option>
+                    </mat-select>
+                </div>
+            </div>	
+            <div id="apexcharts-area" *ngIf="query_income_year">
+                <apx-chart
+                [series]="chartOptionsOne.series"
+                [chart]="chartOptionsOne.chart"
+                [xaxis]="chartOptionsOne.xaxis"
+                [dataLabels]="chartOptionsOne.dataLabels"
+                [grid]="chartOptionsOne.grid"
+                [stroke]="chartOptionsOne.stroke"
+                [title]="chartOptionsOne.title"
+                [markers]="chartOptionsOne.markers"
+                [yaxis]="chartOptionsOne.yaxis"
+                [fill]="chartOptionsOne.fill"
+              ></apx-chart></div>
+        </div>
+    </div>
   </div>
+  <div class="col-12 col-md-12 col-lg-6 col-xl-5 d-flex">
+    <div class="card">
+        <div class="card-body">
+                <apx-chart class="donut-chart-radial"
+                [series]="chartOptionsTwo.series"
+                [chart]="chartOptionsTwo.chart"
+                [labels]="chartOptionsTwo.labels"
+                [responsive]="chartOptionsTwo.responsive"
+                [dataLabels]="chartOptionsTwo.dataLabels"
+                [legend]="chartOptionsTwo.legend"
+              ></apx-chart>
+        </div>
+    </div>
+  </div>
+</div>
+
 </div>

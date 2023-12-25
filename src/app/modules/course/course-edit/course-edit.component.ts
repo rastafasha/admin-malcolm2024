@@ -13,6 +13,7 @@ export class CourseEditComponent implements OnInit {
   subcategories:any=[];
   subcategories_back:any=[];
   categories:any=[];
+  salecategories:any=[];
   instructors:any=[];
   requirements:any=[];
   who_is_it_fors:any=[];
@@ -39,6 +40,7 @@ export class CourseEditComponent implements OnInit {
   user_id:any=null;
   category_id:any=null;
   sub_category_id:any=null;
+  category_sale_id:any=null;
   who_is_it_for:any=null;
 
   videocurso: any = null;
@@ -66,6 +68,7 @@ export class CourseEditComponent implements OnInit {
       }
     )
     this.listarCategorias();
+    this.listarCategoriaVentas();
   }
 
   showCourse(curso_id:number) {
@@ -88,9 +91,19 @@ export class CourseEditComponent implements OnInit {
         this.requirements = this.cursoSelected.requirements;
         this.imagenPrevisualizar = this.cursoSelected.imagen;
         this.state = this.cursoSelected.state;
+        this.category_sale_id =this.cursoSelected.category_sale.id;
 
 
         console.log(this.cursoSelected);
+      }
+    )
+  }
+
+  listarCategoriaVentas(){
+    this.cursoService.categoriaVentas().subscribe(
+      (res:any)=>{
+        this.salecategories = res.salecategories;
+        console.log(res);
       }
     )
   }
@@ -248,6 +261,7 @@ public onChange(event: any) {
     formData.append('user_id', this.user_id);
     formData.append('category_id', this.category_id);
     formData.append('sub_category_id', this.sub_category_id);
+    formData.append('category_sale_id', this.category_sale_id);
     formData.append('who_is_it_for', this.who_is_it_fors);
     formData.append('requirements', this.requirements);
     formData.append('state', this.state);

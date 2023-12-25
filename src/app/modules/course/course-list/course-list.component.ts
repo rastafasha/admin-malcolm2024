@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CourseService } from '../service/course.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CourseDeleteComponent } from '../course-delete/course-delete.component';
-
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-course-list',
   templateUrl: './course-list.component.html',
@@ -20,6 +20,7 @@ export class CourseListComponent implements OnInit {
   constructor(
     public cursoService: CourseService,
     public modalService: NgbModal,
+    public location: Location,
   ) { }
 
   ngOnInit(): void {
@@ -47,5 +48,9 @@ export class CourseListComponent implements OnInit {
       this.listarCursos();
     })
 
+  }
+
+  goBack() {
+    this.location.back(); // <-- go back to previous location on cancel
   }
 }

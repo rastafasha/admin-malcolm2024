@@ -24,7 +24,7 @@
   <div class="separator my-2"></div>
 
   <div class="menu-item px-5">
-    <a routerLink="/crafted/pages/profile" class="menu-link px-5">
+    <a [routerLink]="['/crafted/pages/profile/overview/',_user.id]"  class="menu-link px-5">
       My Profile
     </a>
   </div>

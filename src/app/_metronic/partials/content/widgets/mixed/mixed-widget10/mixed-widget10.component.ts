@@ -1,140 +1,447 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { getCSSVariableValue } from '../../../../../kt/_utils';
+
+import {
+  ChartComponent,
+  ApexAxisChartSeries,
+  ApexChart,
+  ApexXAxis,
+  ApexDataLabels,
+  ApexTitleSubtitle,
+  ApexStroke,
+  ApexGrid,
+  ApexFill,
+  ApexMarkers,
+  ApexYAxis,
+  ApexResponsive,
+  ApexPlotOptions,
+  ApexLegend,
+  ApexTooltip,
+} from 'ng-apexcharts';
+import { VentasService } from 'src/app/modules/ventas/service/ventas.service';
+
+interface data {
+  value: string ;
+}
+export type ChartOptions = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  series: ApexAxisChartSeries | any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  chart: ApexChart | any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  xaxis: ApexXAxis | any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  dataLabels: ApexDataLabels | any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  grid: ApexGrid | any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  fill: ApexFill | any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  markers: ApexMarkers | any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  yaxis: ApexYAxis | any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  stroke: ApexStroke | any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  title: ApexTitleSubtitle | any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  labels: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  responsive: ApexResponsive[] | any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  plotOptions: ApexPlotOptions | any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  tooltip: ApexTooltip | any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  legend: ApexLegend | any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+};
 @Component({
   selector: 'app-mixed-widget10',
   templateUrl: './mixed-widget10.component.html',
 })
 export class MixedWidget10Component implements OnInit {
-  @Input() chartColor: string = '';
-  @Input() chartHeight: string;
-  chartOptions: any = {};
+  
+  @ViewChild('chart') chart!: ChartComponent;
+  public chartOptionsOne: Partial<ChartOptions>;
+  public chartOptionsTwo: Partial<ChartOptions>;
+  public chartOptionsThree: Partial<ChartOptions>;
+  public selectedValue: string = "2023"  ;
 
-  constructor() {}
+  public doctors:any = [];
+  public doctor_id:any;
+
+
+  public appointments:any = []
+  public num_appointments_current:number = 0;
+  public num_appointments_before:number = 0;
+  public porcentaje_d:number = 0;
+  public num_appointments_attention_current:number = 0;
+  public num_appointments_attention_before:number = 0;
+  public porcentaje_da:number = 0;
+  public num_appointments_total_pay_current:number = 0;
+  public num_appointments_total_pay_before:number = 0;
+  public porcentaje_dtp:number = 0;
+  public num_appointments_total_pending_current:number = 0;
+  public num_appointments_total_pending_before:number = 0;
+  public porcentaje_dtpn:number = 0;
+
+  public query_income_year:any = [];
+  public query_patient_by_genders:any = [];
+  public query_n_appointment_year:any = [];
+  public query_n_appointment_year_before:any = [];
+
+  public user:any;
+
+  constructor(
+    public ventasService:VentasService,
+  ) {
+    this.chartOptionsOne = {
+      chart: {
+        height: 200,
+        type: 'line',
+        toolbar: {
+          show: false,
+        },
+      },
+      grid: {
+        show: true, 
+        xaxis: {
+          lines: {
+            show: false
+           }
+         },  
+        yaxis: {
+          lines: { 
+            show: true 
+           }
+         },   
+        },
+      dataLabels: {
+        enabled: false,
+      },
+      stroke: {
+        curve: 'smooth',
+      },
+      series: [],
+      xaxis: {
+        categories: []//['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+      },
+    };
+    this.chartOptionsTwo = {
+      chart: {
+        height: 250,
+        width: 330,
+        type: 'donut',
+        toolbar: {
+          show: false,
+        },
+      },
+      plotOptions: {
+        bar: {
+          horizontal: false,
+          columnWidth: '50%',
+        },
+      },
+      dataLabels: {
+        enabled: false,
+      },
+
+      series: [17, 12],
+      labels: ['Courses', 'Products'],
+      responsive: [
+        {
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200,
+            },
+            legend: {
+              position: 'bottom',
+            },
+          },
+        },
+      ],
+      legend: {
+        position: 'bottom',
+      },
+    };
+    this.chartOptionsThree = {
+      chart: {
+        height: 230,
+        type: 'bar',
+        stacked: false,
+        toolbar: {
+          show: false,
+        },
+      },
+      grid: {
+        show: true, 
+        xaxis: {
+          lines: {
+            show: false
+           }
+         },  
+        yaxis: {
+          lines: { 
+            show: true 
+           }
+         },   
+        },
+      responsive: [
+        {
+          breakpoint: 480,
+          options: {
+            legend: {
+              position: 'bottom',
+              offsetX: -10,
+              offsetY: 0,
+            },
+          },
+        },
+      ],
+      plotOptions: {
+        bar: {
+          horizontal: false,
+          columnWidth: '55%',
+        },
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      stroke: {
+        show: true,
+        width: 6,
+        colors: ['transparent'],
+      },
+      series: [
+        {
+          name: 'Low',
+          color: '#D5D7ED',
+          data: [20, 30, 41, 67, 22, 43, 40, 10, 30, 20, 40],
+        },
+        {
+          name: 'High',
+          color: '#2E37A4',
+          data: [13, 23, 20, 8, 13, 27, 30, 25, 10, 15, 20],
+        },
+      ],
+      xaxis: {
+        categories: [
+          'Jan',
+          'Feb',
+          'Mar',
+          'Apr',
+          'May',
+          'Jun',
+          'Jul',
+          'Aug',
+          'Sep',
+          'Oct',
+          'Nov',
+          'Dec',
+        ],
+      },
+    };
+  }
 
   ngOnInit(): void {
-    this.chartOptions = getChartOptions(this.chartHeight, this.chartColor);
+    window.scrollTo(0, 0);
+    // this.dashboardDoctorYear();
   }
-}
 
-function getChartOptions(chartHeight: string, chartColor: string) {
-  const labelColor = getCSSVariableValue('--bs-gray-800');
-  const strokeColor = getCSSVariableValue('--bs-gray-300');
-  const baseColor = getCSSVariableValue('--bs-' + chartColor);
-  const lightColor = getCSSVariableValue('--bs-light-' + chartColor);
 
-  return {
-    series: [
-      {
-        name: 'Net Profit',
-        data: [15, 25, 15, 40, 20, 50],
-      },
-    ],
-    chart: {
-      fontFamily: 'inherit',
-      type: 'area',
-      height: chartHeight,
-      toolbar: {
-        show: false,
-      },
-      zoom: {
-        enabled: false,
-      },
-      sparkline: {
-        enabled: true,
-      },
-    },
-    plotOptions: {},
-    legend: {
-      show: false,
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    fill: {
-      type: 'solid',
-      opacity: 1,
-    },
-    stroke: {
-      curve: 'smooth',
-      show: true,
-      width: 3,
-      colors: [baseColor],
-    },
-    xaxis: {
-      categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-      axisBorder: {
-        show: false,
-      },
-      axisTicks: {
-        show: false,
-      },
-      labels: {
-        show: false,
-        style: {
-          colors: labelColor,
-          fontSize: '12px',
+  dashboardDoctor(){
+    
+    this.ventasService.config().subscribe((resp:any)=>{
+      // console.log(resp);
+
+      this.appointments= resp.appointments.data;
+
+    })
+  }
+  dashboardDoctorYear(){
+    let data ={
+      year: this.selectedValue,
+      doctor_id:this.doctor_id
+    }
+    this.query_income_year = null;
+    this.query_n_appointment_year= null;
+    this.query_n_appointment_year_before= null;
+    this.ventasService.config().subscribe((resp:any)=>{
+      console.log(resp);
+
+      //start
+      this.query_income_year = resp.query_income_year;
+      let data_income:any = [];
+      this.query_income_year.forEach((element:any) => {
+        data_income.push(element.income);
+      });
+
+      this.chartOptionsOne = {
+        chart: {
+          height: 200,
+          type: 'line',
+          toolbar: {
+            show: false,
+          },
         },
-      },
-      crosshairs: {
-        show: false,
-        position: 'front',
+        grid: {
+          show: true, 
+          xaxis: {
+            lines: {
+              show: false
+             }
+           },  
+          yaxis: {
+            lines: { 
+              show: true 
+             }
+           },   
+          },
+        dataLabels: {
+          enabled: false,
+        },
         stroke: {
-          color: strokeColor,
-          width: 1,
-          dashArray: 3,
+          curve: 'smooth',
         },
-      },
-      tooltip: {
-        enabled: false,
-      },
-    },
-    yaxis: {
-      min: 0,
-      max: 60,
-      labels: {
-        show: false,
-        style: {
-          colors: labelColor,
-          fontSize: '12px',
+        series: [
+            {
+              name: 'Income',
+              color: '#2E37A4',
+              data: data_income,
+            },
+          ],
+        xaxis: {
+          categories: resp.months_name,
         },
-      },
-    },
-    states: {
-      normal: {
-        filter: {
-          type: 'none',
-          value: 0,
+      };
+      
+      // this.chartOptionsOne.xaxis.categories = resp.months_name
+      // this.chartOptionsOne.series = [
+      //   {
+      //     name: 'Income',
+      //     color: '#2E37A4',
+      //     data: data_income,
+      //   },
+      // ]
+      //end
+      
+      //start
+      this.query_patient_by_genders = resp.query_patients_by_gender;
+      let data_by_gender:any = [];
+
+      this.query_patient_by_genders.forEach((item:any) => {
+        data_by_gender.push(parseInt(item.hombre));
+        data_by_gender.push(parseInt(item.mujer));
+      });
+
+      this.chartOptionsTwo.series = data_by_gender;
+      //end
+      //start
+      this.query_n_appointment_year= resp.query_n_appointment_year;
+      this.query_n_appointment_year_before= resp.query_n_appointment_year_before;
+      
+      let n_appointment_year:any =[]
+      this.query_n_appointment_year.forEach((item:any)=>{
+        n_appointment_year.push(item.count_appointments);
+      })
+      let n_appointment_year_before:any =[];
+      this.query_n_appointment_year_before.forEach((item:any)=>{
+        n_appointment_year_before.push(item.count_appointments);
+      })
+      
+      this.chartOptionsThree = {
+        chart: {
+          height: 230,
+          type: 'bar',
+          stacked: false,
+          toolbar: {
+            show: false,
+          },
         },
-      },
-      hover: {
-        filter: {
-          type: 'none',
-          value: 0,
+        grid: {
+          show: true, 
+          xaxis: {
+            lines: {
+              show: false
+             }
+           },  
+          yaxis: {
+            lines: { 
+              show: true 
+             }
+           },   
+          },
+        responsive: [
+          {
+            breakpoint: 480,
+            options: {
+              legend: {
+                position: 'bottom',
+                offsetX: -10,
+                offsetY: 0,
+              },
+            },
+          },
+        ],
+        plotOptions: {
+          bar: {
+            horizontal: false,
+            columnWidth: '55%',
+          },
         },
-      },
-      active: {
-        allowMultipleDataPointsSelection: false,
-        filter: {
-          type: 'none',
-          value: 0,
+        dataLabels: {
+          enabled: false,
         },
-      },
-    },
-    tooltip: {
-      style: {
-        fontSize: '12px',
-      },
-      y: {
-        formatter: function (val: number) {
-          return '$' + val + ' thousands';
+        stroke: {
+          show: true,
+          width: 6,
+          colors: ['transparent'],
         },
-      },
-    },
-    colors: [lightColor],
-    markers: {
-      colors: [lightColor],
-      strokeColors: [baseColor],
-      strokeWidth: 3,
-    },
-  };
+        series: [
+          {
+            name: (parseInt(this.selectedValue))+"",
+            color: '#2E37A4',
+            data: n_appointment_year,
+          },
+          {
+            name: (parseInt(this.selectedValue) - 1)+"",
+            
+            color: '#D5D7ED',
+            data: n_appointment_year_before,
+          },
+        ],
+        xaxis: {
+          categories: resp.months_name,
+        },
+      };
+      //end
+    })
+  }
+
+  selectDoctor(){
+     
+    this.dashboardDoctor();
+    this.dashboardDoctorYear();
+  }
+
+  selectedYear(){
+    this.dashboardDoctorYear();
+  }
+
+  selecedList: data[] = [
+    {value: '2022'},
+    {value: '2023'},
+    {value: '2024'},
+    {value: '2025'},
+    {value: '2026'},
+    
+  ];
+  selecedLists: data[] = [
+    {value: 'This Week'},
+    {value: 'Last Week'},
+    {value: 'This Month'},
+    {value: 'Last Month'},
+  ];
 }

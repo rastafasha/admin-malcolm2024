@@ -22,9 +22,9 @@ export class ListsWidget3Component implements OnInit{
   }
 
   listar(){
-    this.tareaService.list().subscribe(
+    this.tareaService.listPendientes().subscribe(
       (resp:any) =>{
-        this.todos = resp.todos.data;
+        this.todos = resp.todos;
         // console.log(this.deliveries);
 
       }
@@ -40,9 +40,10 @@ export class ListsWidget3Component implements OnInit{
     // this.rating = 0;
     // this.message = null;
   }
-  cambiarStatus(todo:any){
+  cambiarStatus(todo:any){debugger
     this.tareaService.updateStatus(todo).subscribe(
-      resp =>{ console.log(resp);
+      resp =>{ 
+        console.log(resp);
         // Swal.fire('Actualizado', `actualizado correctamente`, 'success');
         this.toaster.open({
           text:'El Status se Actualizado correctamente',

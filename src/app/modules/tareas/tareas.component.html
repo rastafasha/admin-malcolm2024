@@ -29,6 +29,7 @@
                     <div class="card-header">
                         <b>Nueva tarea o nota</b>
                     </div>
+                    
                     <div class="card-body">
 
                         <div class="row">
@@ -40,7 +41,7 @@
                             </div>
                             
 
-                            <div class="col-3">
+                            <div class="col-12">
                                 <label for="select-input" style="line-height: 2.2;">Status<span
                                         class="required">*</span></label>
                                 <select class="form-control " [(ngModel)]="status" name="status">
@@ -69,80 +70,165 @@
                 <div class="col-lg-12 card">
                     <!-- begin::Header -->
                     <div class="card-header border-0">
-                        <h3 class="card-title fw-bolder text-dark">Por hacer</h3>
+                        
+                        <div class="row  g-9" data-kt-buttons="true" data-kt-buttons-target="[data-kt-button='true']">
+                            <!--begin::Col-->
+                            <div class="col-6">
+                                <!--begin::Option active-->
+                                <label class="btn btn-outline btn-outline-dashed btn-outline-default  d-flex text-start p-6" [ngClass]="{'active':selected_option == 1}" data-kt-button="true">
+                                    <!--begin::Radio-->
+                                    <span class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
+                                        <input class="form-check-input" type="radio" name="discount_option" value="1" (click)="selectedOption(1)" [checked]="selected_option == 1">
+                                    </span>
+                                    <!--end::Radio-->
+                                    <!--begin::Info-->
+                                    <span class="ms-5">
+                                        <span class="fs-4 fw-bolder text-gray-800 d-block">Por hacer</span>
+                                    </span>
+                                    <!--end::Info-->
+                                </label>
+                                <!--end::Option-->
+                            </div>
+                            <!--end::Col-->
+                            <!--begin::Col-->
+                            <div class="col-6">
+                                <!--begin::Option-->
+                                <label class="btn btn-outline btn-outline-dashed btn-outline-default d-flex text-start p-6" [ngClass]="{'active':selected_option == 2}" data-kt-button="true">
+                                    <!--begin::Radio-->
+                                    <span class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
+                                        <input class="form-check-input" type="radio" name="discount_option" value="2" (click)="selectedOption(2)" [checked]="selected_option == 2">
+                                    </span>
+                                    <!--end::Radio-->
+                                    <!--begin::Info-->
+                                    <span class="ms-5">
+                                        <span class="fs-4 fw-bolder text-gray-800 d-block">Terminado</span>
+                                    </span>
+                                    <!--end::Info-->
+                                </label>
+                                <!--end::Option-->
+                            </div>
+                            <!--end::Col-->
+                        </div>
+
                     </div>
                     <!-- end::Header -->
                     <!-- begin::Body -->
-                    <div class="card-body " *ngIf="!tareaSelected">
-                        <ng-container *ngFor="let todo of todos">
-                            <!-- begin::Item -->
-                        <div class="d-flex align-items-center mb-8">
-                            <!-- begin::Bullet -->
-                            <span class="bullet bullet-vertical h-40px {{todo.status}}"></span>
-                            <!-- end::Bullet -->
-                            <!-- begin::Checkbox -->
-                            <div class="form-check form-check-custom form-check-solid mx-5">
-                                <input class="form-check-input" type="checkbox" value="" />
-                            </div>
-                            <!-- end::Checkbox -->
-                            <!-- begin::Description -->
-                            <div class="flex-grow-1">
-                                <a href="#" class="text-gray-800 text-hover-primary fw-bolder fs-6">
-                                    {{todo.titulo}}
-                                </a>
-                                <span class="text-muted fw-bold d-block">{{todo.created_at}}</span>
-                            </div>
-                            <div class="col-3">
-                                <div class="badge activo fw-bolder" *ngIf="todo.status == 'activo'">Activo</div>
-                                <div class="badge pending fw-bolder" *ngIf="todo.status == 'pending'">Pendiente</div>
-                                <div class="badge terminado fw-bolder" *ngIf="todo.status == 'terminado'">Terminado</div>
-                                <div class="badge urgente fw-bolder" *ngIf="todo.status == 'urgente'">urgente</div>
+                    <div  *ngIf="selected_option == 1">
+                        <div class="card-body lista-scroll" *ngIf="!tareaSelected">
+                            <ng-container *ngFor="let todo of todos">
+                                <!-- begin::Item -->
+                            <div class="d-flex align-items-center mb-8">
+                                <!-- begin::Bullet -->
+                                <span class="bullet bullet-vertical h-40px {{todo.status}}"></span>
+                                <!-- end::Bullet -->
+                                <!-- begin::Checkbox -->
+                                <div class="form-check form-check-custom form-check-solid mx-5">
+                                    <input class="form-check-input" type="checkbox" value="" />
                                 </div>
-                            <!-- end::Description -->
-                            <span class="badge  fs-8 fw-bolder">
-                                
-                                <a class="rbt-btn btn-xs bg-primary-opacity radius-round" href="#"
-                                    onclick="return false;" (click)="selectedDireccion(todo)" title="Edit">
-                                    <span class="svg-icon svg-icon-3">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                            <path opacity="0.3" d="M21.4 8.35303L19.241 10.511L13.485 4.755L15.643 2.59595C16.0248 2.21423 16.5426 1.99988 17.0825 1.99988C17.6224 1.99988 18.1402 2.21423 18.522 2.59595L21.4 5.474C21.7817 5.85581 21.9962 6.37355 21.9962 6.91345C21.9962 7.45335 21.7817 7.97122 21.4 8.35303ZM3.68699 21.932L9.88699 19.865L4.13099 14.109L2.06399 20.309C1.98815 20.5354 1.97703 20.7787 2.03189 21.0111C2.08674 21.2436 2.2054 21.4561 2.37449 21.6248C2.54359 21.7934 2.75641 21.9115 2.989 21.9658C3.22158 22.0201 3.4647 22.0084 3.69099 21.932H3.68699Z" fill="currentColor" />
-                                            <path d="M5.574 21.3L3.692 21.928C3.46591 22.0032 3.22334 22.0141 2.99144 21.9594C2.75954 21.9046 2.54744 21.7864 2.3789 21.6179C2.21036 21.4495 2.09202 21.2375 2.03711 21.0056C1.9822 20.7737 1.99289 20.5312 2.06799 20.3051L2.696 18.422L5.574 21.3ZM4.13499 14.105L9.891 19.861L19.245 10.507L13.489 4.75098L4.13499 14.105Z" fill="currentColor" />
-                                        </svg>
-                                    </span>
-                                </a> &nbsp;&nbsp;
-                                <a href="#" onclick="return false" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm" (click)="eliminarTarea(todo)" >
-                                               
-                                    <span class="svg-icon svg-icon-3">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                            <path d="M5 9C5 8.44772 5.44772 8 6 8H18C18.5523 8 19 8.44772 19 9V18C19 19.6569 17.6569 21 16 21H8C6.34315 21 5 19.6569 5 18V9Z" fill="currentColor" />
-                                            <path opacity="0.5" d="M5 5C5 4.44772 5.44772 4 6 4H18C18.5523 4 19 4.44772 19 5V5C19 5.55228 18.5523 6 18 6H6C5.44772 6 5 5.55228 5 5V5Z" fill="currentColor" />
-                                            <path opacity="0.5" d="M9 4C9 3.44772 9.44772 3 10 3H14C14.5523 3 15 3.44772 15 4V4H9V4Z" fill="currentColor" />
-                                        </svg>
-                                    </span>
-                                </a>
-
-                            </span>
+                                <!-- end::Checkbox -->
+                                <!-- begin::Description -->
+                                <div class="flex-grow-1">
+                                    <a href="#" onclick="return false" (click)="selectedDireccion(todo)" class="text-gray-800 text-hover-primary fw-bolder fs-6">
+                                        {{todo.titulo}}
+                                    </a>
+                                    <span class="text-muted fw-bold d-block">{{todo.created_at|date}}</span>
+                                </div>
+                                <div class="col-3">
+                                    <div class="badge activo fw-bolder" *ngIf="todo.status == 'activo'">Activo</div>
+                                    <div class="badge pending fw-bolder" *ngIf="todo.status == 'pending'">Pendiente</div>
+                                    <div class="badge terminado fw-bolder" *ngIf="todo.status == 'terminado'">Terminado</div>
+                                    <div class="badge urgente fw-bolder" *ngIf="todo.status == 'urgente'">urgente</div>
+                                    </div>
+                                <!-- end::Description -->
+                                <span class="badge  fs-8 fw-bolder">
+                                    
+                                   
+                                    <a href="#" onclick="return false" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm" (click)="eliminarTarea(todo)" >
+                                                   
+                                        <span class="svg-icon svg-icon-3">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                <path d="M5 9C5 8.44772 5.44772 8 6 8H18C18.5523 8 19 8.44772 19 9V18C19 19.6569 17.6569 21 16 21H8C6.34315 21 5 19.6569 5 18V9Z" fill="currentColor" />
+                                                <path opacity="0.5" d="M5 5C5 4.44772 5.44772 4 6 4H18C18.5523 4 19 4.44772 19 5V5C19 5.55228 18.5523 6 18 6H6C5.44772 6 5 5.55228 5 5V5Z" fill="currentColor" />
+                                                <path opacity="0.5" d="M9 4C9 3.44772 9.44772 3 10 3H14C14.5523 3 15 3.44772 15 4V4H9V4Z" fill="currentColor" />
+                                            </svg>
+                                        </span>
+                                    </a>
+    
+                                </span>
+                            </div>
+                            <!-- end:Item -->
+                            </ng-container>
                         </div>
-                        <!-- end:Item -->
-                        </ng-container>
                     </div>
+                    
+                    <!-- end::Body -->
+
+                    <!-- begin::Body -->
+                    <div  *ngIf="selected_option == 2">
+                        <div class="card-body lista-scroll" *ngIf="!tareaSelected">
+                            <ng-container *ngFor="let todo of todosterminados">
+                                <!-- begin::Item -->
+                            <div class="d-flex align-items-center mb-8">
+                                <!-- begin::Bullet -->
+                                <span class="bullet bullet-vertical h-40px {{todo.status}}"></span>
+                                <!-- end::Bullet -->
+                                <!-- begin::Checkbox -->
+                                <div class="form-check form-check-custom form-check-solid mx-5">
+                                    <input class="form-check-input" type="checkbox" value="" />
+                                </div>
+                                <!-- end::Checkbox -->
+                                <!-- begin::Description -->
+                                <div class="flex-grow-1">
+                                    <a href="#" onclick="return false" (click)="selectedDireccion(todo)" class="text-gray-800 text-hover-primary fw-bolder fs-6">
+                                        {{todo.titulo}}
+                                    </a>
+                                    <span class="text-muted fw-bold d-block">{{todo.created_at|date}}</span>
+                                </div>
+                                <div class="col-3">
+                                    <div class="badge activo fw-bolder" *ngIf="todo.status == 'activo'">Activo</div>
+                                    <div class="badge pending fw-bolder" *ngIf="todo.status == 'pending'">Pendiente</div>
+                                    <div class="badge terminado fw-bolder" *ngIf="todo.status == 'terminado'">Terminado</div>
+                                    <div class="badge urgente fw-bolder" *ngIf="todo.status == 'urgente'">urgente</div>
+                                    </div>
+                                <!-- end::Description -->
+                                <span class="badge  fs-8 fw-bolder">
+                                    
+                                   
+                                    <a href="#" onclick="return false" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm" (click)="eliminarTarea(todo)" >
+                                                   
+                                        <span class="svg-icon svg-icon-3">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                <path d="M5 9C5 8.44772 5.44772 8 6 8H18C18.5523 8 19 8.44772 19 9V18C19 19.6569 17.6569 21 16 21H8C6.34315 21 5 19.6569 5 18V9Z" fill="currentColor" />
+                                                <path opacity="0.5" d="M5 5C5 4.44772 5.44772 4 6 4H18C18.5523 4 19 4.44772 19 5V5C19 5.55228 18.5523 6 18 6H6C5.44772 6 5 5.55228 5 5V5Z" fill="currentColor" />
+                                                <path opacity="0.5" d="M9 4C9 3.44772 9.44772 3 10 3H14C14.5523 3 15 3.44772 15 4V4H9V4Z" fill="currentColor" />
+                                            </svg>
+                                        </span>
+                                    </a>
+    
+                                </span>
+                            </div>
+                            <!-- end:Item -->
+                            </ng-container>
+                        </div>
+                    </div>
+                    
                     <!-- end::Body -->
                 </div>
             </div>
 
 
 
-            <div class="rbt-dashboard-table table-responsive mobile-table-750" *ngIf="tareaSelected" >
+            <div class="rbt-dashboard-table table-responsive mobile-table-750 tarea" *ngIf="tareaSelected" >
                 <div class="row ">
-                    <div class="col-12 col-sm-6 d-flex justify-content-space-between flex-row ">
-                        <div class="col-12 ">
+                    <div class="col-12 ">
+                        <div class="col-xs-12  ">
                             <div class="rbt-form-group">
                                 <b>
                                     Titulo </b><br>
                                     {{tareaSelected.titulo}}
                             </div>
                         </div>
-                        <div class="col-12 ">
+                        <div class="col-xs-12  ">
                             <div class="rbt-form-group">
                                 <b> status</b><br>
                                 {{tareaSelected.status}}
@@ -159,7 +245,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 ">
+                    <div class="col-xs-12  ">
                         <div class="rbt-form-group">
                             <b>
                                 Descripcion</b><br>

@@ -1,7 +1,7 @@
 <span class="spinner-border spinner-border-sm align-middle ms-2" *ngIf="isLoading | async"></span>
 <!-- begin::Header -->
 <div class="card-header border-0">
-  <h3 class="card-title fw-bolder text-dark">Tareas Recientes.</h3>
+  <h3 class="card-title fw-bolder text-dark">Tareas Pendientes.</h3>
   <div class="card-toolbar">
     <!-- begin::Menu -->
     <button
@@ -41,7 +41,7 @@
       <a (click)="selectedTarea(todo)" style="cursor:pointer" class="text-gray-800 text-hover-primary fw-bolder fs-6">
         &nbsp;{{todo.titulo|slice:0:15}}...
       </a>
-      <span class="text-muted fw-bold d-block">{{todo.created_at|date}}</span>
+      <span class="text-muted fw-bold d-block">&nbsp;{{todo.created_at|date}}</span>
     </div>
     <!-- end::Description -->
     <span class="badge badge-light-activo fs-8 fw-bolder" *ngIf="todo.status == 'activo'">Act.</span>
@@ -54,8 +54,8 @@
   
   <!-- end:Item -->
 </ng-container>
-<div class="row " *ngIf="tareaSelected">
-  <div class="col-12 col-sm-6 d-flex justify-content-space-between flex-row ">
+<div class="row tarea" *ngIf="tareaSelected">
+  <div class="col-12  ">
       <div class="col-12 ">
           <div class="rbt-form-group">
               <b>
@@ -69,7 +69,7 @@
               {{tareaSelected.status}}
               <div class="col-12">
                   
-                  <select class="form-control " [(ngModel)]="tareaSelected.status" name="status" (change)="cambiarStatus(todo)">
+                  <select class="form-control " [(ngModel)]="tareaSelected.status" name="status" (change)="cambiarStatus(tareaSelected)">
                       <option disabled value="">Status</option>
                       <option value="activo">Activo</option>
                       <option value="pending">Pendiente</option>

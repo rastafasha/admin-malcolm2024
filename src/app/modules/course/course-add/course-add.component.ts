@@ -3,7 +3,7 @@ import { CourseService } from '../service/course.service';
 import { Toaster } from 'ngx-toast-notifications';
 import { CKEditor4 } from 'ckeditor4-angular';
 import { Router } from '@angular/router';
-
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-course-add',
   templateUrl: './course-add.component.html',
@@ -14,6 +14,7 @@ export class CourseAddComponent implements OnInit {
   subcategories:any=[];
   subcategories_back:any=[];
   categories:any=[];
+  salecategories:any=[];
   instructors:any=[];
   requirements:any=[];
   who_is_it_fors:any=[];
@@ -38,18 +39,21 @@ export class CourseAddComponent implements OnInit {
   user_id:any=null;
   category_id:any=null;
   sub_category_id:any=null;
+  category_sale_id:any;
   who_is_it_for:any=null;
 
   constructor(
     public cursoService: CourseService,
     public toaster: Toaster,
     public router: Router,
+    public location: Location,
   ) { }
 
   ngOnInit(): void {
     window.scrollTo(0,0);
     this.isLoading = this.cursoService.isLoading$;
     this.listarCategorias();
+    this.listarCategoriaVentas();
   }
 
   listarCategorias(){
@@ -59,6 +63,15 @@ export class CourseAddComponent implements OnInit {
         this.subcategories = res.subcategories;
         this.instructors = res.instructors;
         // console.log(this.instructors);
+      }
+    )
+  }
+
+  listarCategoriaVentas(){
+    this.cursoService.categoriaVentas().subscribe(
+      (res:any)=>{
+        this.salecategories = res.salecategories;
+        console.log(res);
       }
     )
   }
@@ -164,6 +177,7 @@ public onChange(event: any) {
     formData.append('user_id', this.user_id);
     formData.append('category_id', this.category_id);
     formData.append('sub_category_id', this.sub_category_id);
+    formData.append('category_sale_id', this.category_sale_id);
     formData.append('who_is_it_for', this.who_is_it_fors);
     formData.append('requirements', this.requirements);
 
@@ -196,6 +210,7 @@ public onChange(event: any) {
           this.user_id = null;
           this.category_id = null;
           this.sub_category_id = null;
+          this.category_sale_id = null;
           this.who_is_it_fors = [];
           this.requirements = [];
           this.imagenPrevisualizar = null;
@@ -209,7 +224,9 @@ public onChange(event: any) {
   }
 
   
-
+  goBack() {
+    this.location.back(); // <-- go back to previous location on cancel
+  }
   
   
 

@@ -117,8 +117,8 @@
     data-kt-menu-placement="bottom-end"
     data-kt-menu-flip="bottom"
   >
-    <img *ngIf="!user.avatar" src="./assets/media/avatars/300-1.jpg" [alt]="user.name" />
-    <img *ngIf="user.avatar" src="{{imagenSerUrl}}{{user.avatar}}" [alt]="user.name" />
+    <img *ngIf="!usuariotop" src="./assets/media/avatars/300-1.jpg" />
+    <img *ngIf="usuariotop" src="{{imagenSerUrl}}{{usuariotop.avatar}}"  />
 
   </div>
   <!-- end::Toggle  -->

@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Toaster } from 'ngx-toast-notifications';
-import { DeliveryService } from 'src/app/services/delivery.service';
-import { DeliveryDeleteComponent } from '../delivery/delivery-delete/delivery-delete.component';
 import { TareaService } from './service/tarea.service';
 import { Location } from '@angular/common';
 import { TareaDeleteComponent } from './tarea-delete/tarea-delete.component';
@@ -16,12 +14,14 @@ export class TareasComponent implements OnInit {
 
   
   public todos;
+  public todosterminados;
   public identity;
   isLoading:any;
   titulo:any =null;
   status:any =null;
   description:any='<p>Hello World!</p>';
   tareaSelected:any =null;
+  selected_option: any = 1;
 
   constructor(
     private tareaService : TareaService,
@@ -34,6 +34,7 @@ export class TareasComponent implements OnInit {
     this.isLoading = this.tareaService.isLoading$;
     window.scrollTo(0,0);
     this.listar();
+    this.listarTerminados();
   }
 
   goBack() {
@@ -62,12 +63,12 @@ export class TareasComponent implements OnInit {
             caption: 'Informe',
             type:'success'
           })
-          
-        }
-        this.titulo = null;
-          this.status = null;
-          this.description = null;
+          this.titulo = '';
+          this.status = '';
+          this.description = '';
         this.listar();
+        }
+        
       }
       
     );
@@ -77,6 +78,16 @@ export class TareasComponent implements OnInit {
     this.tareaService.list().subscribe(
       (resp:any) =>{
         this.todos = resp.todos.data;
+        // console.log(this.deliveries);
+
+      }
+    );
+  }
+
+  listarTerminados(){
+    this.tareaService.listTerminados().subscribe(
+      (resp:any) =>{
+        this.todosterminados = resp.terminados;
         // console.log(this.deliveries);
 
       }
@@ -119,7 +130,14 @@ selectedDireccion(todo:any){
         })
         
         this.listar();
+        this.listarTerminados();
       }
     )
   }
+
+  selectedOption(value:number){
+    this.selected_option = value
+  }
+
+
 }

@@ -113,6 +113,18 @@ export class CourseService {
     ) 
   }
 
+  categoriaVentas(){
+    this.isLoadingSubject.next(true);
+    let headers = new HttpHeaders({'Authorization': 'Bearer'+this.authservice.token});
+
+
+    let URL = URL_SERVICIOS+'/sale-categories';
+
+    return this.http.get(URL, {headers: headers}).pipe(
+      finalize(()=> this.isLoadingSubject.next(false))
+    )
+  }
+
 
   //seciones
 

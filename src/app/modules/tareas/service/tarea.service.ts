@@ -64,6 +64,28 @@ export class TareaService {
       finalize(()=> this.isLoadingSubject.next(false))
     )
   }
+  listPendientes(){
+    this.isLoadingSubject.next(true);
+    let headers = new HttpHeaders({'Authorization': 'Bearer'+this.authservice.token});
+
+
+    let URL = URL_SERVICIOS+'/todo/pendientes';
+
+    return this.http.get(URL, {headers: headers}).pipe(
+      finalize(()=> this.isLoadingSubject.next(false))
+    )
+  }
+  listTerminados(){
+    this.isLoadingSubject.next(true);
+    let headers = new HttpHeaders({'Authorization': 'Bearer'+this.authservice.token});
+
+
+    let URL = URL_SERVICIOS+'/todo/terminados';
+
+    return this.http.get(URL, {headers: headers}).pipe(
+      finalize(()=> this.isLoadingSubject.next(false))
+    )
+  }
 
 
   delete(todo_id:string){

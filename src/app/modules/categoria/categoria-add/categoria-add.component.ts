@@ -52,6 +52,8 @@ export class CategoriaAddComponent implements OnInit {
 
   }
 
+  
+
   store(){
     if(this.selected_option == 1){
       if(!this.nombre
